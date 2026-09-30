@@ -356,6 +356,128 @@
 }
 
 /* ============================================================
+   打地鼠
+   ============================================================ */
+
+.whack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+}
+
+.whack__hint {
+  flex: none;
+  font-size: var(--fs-xs);
+  text-align: center;
+  color: var(--c-ink-soft);
+}
+
+.whack__grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+
+.whack__cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px dashed rgba(74, 59, 99, 0.22);
+  border-radius: var(--r-md);
+  /* 阻止长按弹出选择菜单，连点才不会被打断 */
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.whack__cell:active {
+  background: rgba(255, 107, 157, 0.16);
+}
+
+.whack__mole {
+  font-size: clamp(26px, 9vw, 42px);
+  line-height: 1;
+  /* 冒头动画：从下方顶上来，缩回去时不播动画（直接消失更干脆） */
+  animation: whack-pop 140ms var(--ease-bounce);
+}
+
+.whack__mole.is-bomb {
+  /* 炸弹加一点脉动，让它在余光里也显眼 */
+  animation: whack-pop 140ms var(--ease-bounce), whack-bomb 620ms ease-in-out 140ms infinite;
+}
+
+@keyframes whack-pop {
+  from {
+    transform: translateY(60%) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes whack-bomb {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+/* ============================================================
+   叠塔
+   ============================================================ */
+
+.stack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-3);
+  touch-action: manipulation;
+}
+
+.stack__hint {
+  flex: none;
+  font-size: var(--fs-xs);
+  text-align: center;
+  color: var(--c-ink-soft);
+}
+
+.stack__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.stack__block {
+  position: absolute;
+  border-radius: 5px;
+  border: 2px solid var(--c-ink);
+  box-shadow: inset 0 -3px 0 rgba(74, 59, 99, 0.16);
+}
+
+.stack__block--current {
+  background: var(--c-pink);
+  box-shadow:
+    inset 0 -3px 0 rgba(74, 59, 99, 0.16),
+    0 0 0 3px var(--c-pink-soft);
+}
+
+/* ============================================================
    猜拳
    ============================================================ */
 

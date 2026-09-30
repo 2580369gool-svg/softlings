@@ -16,16 +16,16 @@ import { playSfx } from "../audio";
 import type { GameProps } from "./types";
 
 const LANES = 4;
-/** 音符从顶端落到底部所需时长 */
-const FALL_MS = 1_700;
+/** 音符从顶端落到底部所需时长。落得越快，留给反应的时间越短。 */
+const FALL_MS = 1_380;
 /** 判定线在轨道高度的百分比 */
 const HIT_LINE = 0.82;
-/** 完美 / 良好的判定窗口（占全程比例） */
-const PERFECT_WINDOW = 0.07;
-const GOOD_WINDOW = 0.16;
+/** 完美 / 良好的判定窗口（占全程比例）—— 收窄后完美判定才有含金量 */
+const PERFECT_WINDOW = 0.052;
+const GOOD_WINDOW = 0.125;
 /** 生成间隔 */
-const SPAWN_START_MS = 700;
-const SPAWN_MIN_MS = 380;
+const SPAWN_START_MS = 580;
+const SPAWN_MIN_MS = 270;
 
 interface Note {
   id: number;

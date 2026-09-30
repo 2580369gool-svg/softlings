@@ -54,7 +54,13 @@ export type EvolutionLineId =
   | "cloudpuff_storm"
   | "sprout_blossom"
   | "sprout_crystal"
-  | "sprout_ember";
+  | "sprout_ember"
+  | "whispy_moonshine"
+  | "whispy_lampling"
+  | "whispy_shade"
+  | "twinkle_comet"
+  | "twinkle_crystal"
+  | "twinkle_meteor";
 
 export interface EvolutionPalette {
   /** 主体色 */
@@ -215,6 +221,65 @@ export const EVOLUTIONS: Record<EvolutionLineId, EvolutionDef> = {
     scale: 1.05,
     behind: ["tailFlame"],
     front: ["flameTuft"],
+  },
+
+  /* ================= 小幽灵 ================= */
+  whispy_moonshine: {
+    id: "whispy_moonshine",
+    species: "whispy",
+    path: "refined",
+    palette: { color: "#D8E4FF", shade: "#A9BCE8", blush: "#FFA6C9", accent: "#C9D4FF" },
+    scale: 1,
+    behind: ["halo"],
+    front: ["crescentMoon", "starMark"],
+  },
+  whispy_lampling: {
+    id: "whispy_lampling",
+    species: "whispy",
+    path: "balanced",
+    palette: { color: "#FFEAC2", shade: "#E8C88A", blush: "#FFA6C9", accent: "#FFB05C" },
+    scale: 0.99,
+    behind: [],
+    front: ["flameTuft", "jellySparkle"],
+  },
+  whispy_shade: {
+    id: "whispy_shade",
+    species: "whispy",
+    path: "feral",
+    palette: { color: "#A89BC4", shade: "#6F6390", blush: "#E0A6C8", accent: "#6B5B95" },
+    scale: 1.05,
+    behind: ["wingBat"],
+    front: ["stormCloud"],
+  },
+
+  /* ================= 星星兽 ================= */
+  twinkle_comet: {
+    id: "twinkle_comet",
+    species: "twinkle",
+    path: "refined",
+    palette: { color: "#FFE08A", shade: "#E8B84C", blush: "#FF9EC4", accent: "#FF9E2C" },
+    scale: 1,
+    behind: ["rainbowArc"],
+    front: ["rainbowTuft"],
+  },
+  twinkle_crystal: {
+    id: "twinkle_crystal",
+    species: "twinkle",
+    path: "balanced",
+    palette: { color: "#CDE9F5", shade: "#8FC4DA", blush: "#FFA6C9", accent: "#7FD4E8" },
+    scale: 0.99,
+    bodyOpacity: 0.94,
+    behind: [],
+    front: ["crystalHorn", "jellySparkle"],
+  },
+  twinkle_meteor: {
+    id: "twinkle_meteor",
+    species: "twinkle",
+    path: "feral",
+    palette: { color: "#E0A07A", shade: "#A85F42", blush: "#FFD166", accent: "#C24A28" },
+    scale: 1.04,
+    behind: ["wingBat"],
+    front: ["magmaCracks"],
   },
 };
 

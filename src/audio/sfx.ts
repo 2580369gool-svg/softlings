@@ -27,6 +27,7 @@ export type SfxName =
   | "deny"
   | "visitor"
   | "hatch"
+  | "crack"
   | "evolve"
   // 小游戏
   | "catch"
@@ -132,6 +133,12 @@ const SFX: Record<SfxName, () => void> = {
     playTone({ freq: G5, dur: 0.08, gain: 0.18, type: "sine", vary: 0.05 });
     playTone({ freq: C6, dur: 0.08, gain: 0.18, type: "sine", delay: 0.09, vary: 0.05 });
     playTone({ freq: E6, dur: 0.2, gain: 0.2, type: "sine", delay: 0.18 });
+  },
+
+  // 蛋壳开裂：一记干脆的脆响 —— 高频噪声短促爆发，像硬壳绷开
+  crack: () => {
+    playNoise({ dur: 0.09, gain: 0.32, filterFreq: 3600, filterTo: 1400, q: 2.4 });
+    playTone({ freq: 1200, freqTo: 520, dur: 0.07, gain: 0.14, type: "square" });
   },
 
   // 破壳：短促的上行号角

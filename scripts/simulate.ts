@@ -93,12 +93,12 @@ import { PART_LAYER } from "../src/render/parts";
 import {
   ACTION_KEYS,
   NEED_KEYS,
+  SPECIES,
   type ActionKey,
   type NeedKey,
   type Needs,
   type Pet,
   type SimState,
-  type Species,
 } from "../src/core/types";
 
 const MIN = 60_000;
@@ -437,7 +437,7 @@ console.log("\n── 8. 成长与进化 ──");
   check("疏于照护收敛到 feral", pathForCareScore(neglectful.pet.careScore) === "feral");
 
   // --- 四条线都能走到自己的名字，且都是这个物种的 ---
-  const species: Species[] = ["puddly", "mochi", "cloudpuff", "sprout"];
+  const species = SPECIES;
   let crossed = 0;
   for (const sp of species) {
     const paths: EvolutionPath[] = ["refined", "balanced", "feral"];
@@ -446,7 +446,18 @@ console.log("\n── 8. 成长与进化 ──");
       if (line.species === sp && line.path === p) crossed++;
     }
   }
-  check("12 条进化线的种族/路线映射全部正确", crossed === 12, `${crossed}/12`);
+  const expectedLines = SPECIES.length * 3;
+  check(
+    `${SPECIES.length} 个种族 × 3 条路线 = ${expectedLines} 条进化线的映射全部正确`,
+    crossed === expectedLines,
+    `${crossed}/${expectedLines}`,
+  );
+
+  // 点缀色在冒烟测试里被当作「这条线渲染出来了」的唯一标记，
+  // 重复的话断言就失去意义（一条线没渲染，另一条的色值也能蒙混过关）
+  const accents = EVOLUTION_IDS.map((id) => EVOLUTIONS[id].palette.accent);
+  const dupAccents = accents.filter((c, i) => accents.indexOf(c) !== i);
+  check("每条进化线的点缀色唯一", dupAccents.length === 0, [...new Set(dupAccents)].join(", ") || "全部唯一");
 
   const uniqueIds = new Set(EVOLUTION_IDS);
   check("进化线 id 无重复", uniqueIds.size === EVOLUTION_IDS.length, `${uniqueIds.size} 条`);
@@ -683,7 +694,7 @@ console.log("\n── 10. 经济系统与小游戏 ──");
   check("没有免费道具", freeItem.length === 0);
 
   /* --- 小游戏 --- */
-  check("六个游戏都有定义", GAME_IDS.length === 6, `${GAME_IDS.length} 个`);
+  check("小游戏都有定义（当前 9 个）", GAME_IDS.length >= 9, `${GAME_IDS.length} 个`);
   check(
     "每个游戏都有对应的组件实现（否则菜单里点了会白屏）",
     GAME_IDS.every((id) => typeof GAME_COMPONENTS[id] === "function"),
@@ -691,9 +702,12 @@ console.log("\n── 10. 经济系统与小游戏 ──");
 
   // 每个种族都该有至少一个本命游戏，否则有的种族天生吃亏
   const favoredSpecies = new Set(GAME_IDS.map((id) => GAMES[id].favoredBy));
-  const allSpecies: Species[] = ["puddly", "mochi", "cloudpuff", "sprout"];
-  const noFavor = allSpecies.filter((s) => !favoredSpecies.has(s));
-  check("四个种族都有本命游戏", noFavor.length === 0, noFavor.join(", ") || "全覆盖");
+  const noFavor = SPECIES.filter((s) => !favoredSpecies.has(s));
+  check(
+    `${SPECIES.length} 个种族都有本命游戏`,
+    noFavor.length === 0,
+    noFavor.join(", ") || "全覆盖",
+  );
 
   check("所有游戏时长在 20–70 秒之间（碎片时间友好）",
     GAME_IDS.every((id) => {
@@ -980,7 +994,6 @@ console.log("\n── 13. 旅行与明信片 ──");
   check("重复推进不会重复结算", stepTravel(travel, 60_000).arrived === null);
 
   /* --- 旅行期间需求衰减更慢（这条决定了玩家敢不敢用这个功能）--- */
-  const home24 = advanceTo(fresh(), BASE + HATCH_MS + 1000 + 24 * HOUR).state;
   let awayRun = createState("puddly", BASE);
   awayRun = advanceTo(awayRun, BASE + HATCH_MS + 1000).state;
   awayRun = {

@@ -10,9 +10,12 @@ import { BubblePop } from "./BubblePop";
 import { CatchFruit } from "./CatchFruit";
 import { Fishing } from "./Fishing";
 import { MemoryMatch } from "./MemoryMatch";
+import { PaddleBall } from "./PaddleBall";
 import { RhythmTap } from "./RhythmTap";
 import { RockPaperScissors } from "./RockPaperScissors";
+import { StackTower } from "./StackTower";
 import type { GameId, GameProps } from "./types";
+import { WhackMole } from "./WhackMole";
 
 export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   catchFruit: CatchFruit,
@@ -21,6 +24,9 @@ export const GAME_COMPONENTS: Record<GameId, ComponentType<GameProps>> = {
   rockPaperScissors: RockPaperScissors,
   fishing: Fishing,
   memoryMatch: MemoryMatch,
+  whackMole: WhackMole,
+  paddleBall: PaddleBall,
+  stackTower: StackTower,
 };
 
 export const GAME_ICON: Record<GameId, string> = {
@@ -30,4 +36,7 @@ export const GAME_ICON: Record<GameId, string> = {
   rockPaperScissors: "✌️",
   fishing: "🎣",
   memoryMatch: "🃏",
+  whackMole: "🐹",
+  paddleBall: "🏓",
+  stackTower: "🧱",
 };

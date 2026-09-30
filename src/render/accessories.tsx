@@ -56,6 +56,22 @@ export const ANCHORS: Record<Species, AccessoryAnchors> = {
     back: { x: 146, y: 132 },
     scale: 0.98,
   },
+  whispy: {
+    // 幽灵的「脖子」在波浪下摆之上，项圈要抬高一点才不会被浪花吃掉
+    hat: { x: 100, y: 44 },
+    face: { x: 100, y: 104 },
+    neck: { x: 100, y: 142 },
+    back: { x: 146, y: 124 },
+    scale: 1,
+  },
+  twinkle: {
+    // 星形的可用中心比圆形小，饰品整体内收一档
+    hat: { x: 100, y: 30 },
+    face: { x: 100, y: 100 },
+    neck: { x: 100, y: 142 },
+    back: { x: 148, y: 124 },
+    scale: 0.9,
+  },
 };
 
 /** 围巾/项圈共用的那道弧 */

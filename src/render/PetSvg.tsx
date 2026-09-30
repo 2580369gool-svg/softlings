@@ -16,11 +16,13 @@
 import type { ReactNode } from "react";
 
 import { EVOLUTIONS, isEvolutionLineId, type PartId } from "../core/evolution";
+import { crackStageOf } from "../core/pet";
 import type { PetStatus, Species, Stage } from "../core/types";
 import { ACCESSORIES, equippedList, type Equipped } from "../core/wardrobe";
 
 import { ACCESSORY_ART, ANCHORS } from "./accessories";
 import { STILL_GAZE, type Gaze } from "./gaze";
+import { SPECIES_BASE } from "./palette";
 import { PARTS, PART_LAYER } from "./parts";
 import "./petAnimations.css";
 
@@ -60,9 +62,7 @@ interface SpeciesArt {
 const ART: Record<Species, SpeciesArt> = {
   /* ---------- 布丁兽：果冻布丁，宽底圆顶 ---------- */
   puddly: {
-    color: "#FFD98E",
-    shade: "#F2B95C",
-    blush: "#FF6B9D",
+    ...SPECIES_BASE.puddly,
     eyeX: 22,
     eyeY: 104,
     eyeR: 11,
@@ -90,9 +90,7 @@ const ART: Record<Species, SpeciesArt> = {
 
   /* ---------- 麻薯猫：圆身 + 三角耳 ---------- */
   mochi: {
-    color: "#FFF3E4",
-    shade: "#EBD9C4",
-    blush: "#FF8FB1",
+    ...SPECIES_BASE.mochi,
     eyeX: 21,
     eyeY: 106,
     eyeR: 11,
@@ -120,9 +118,7 @@ const ART: Record<Species, SpeciesArt> = {
 
   /* ---------- 云朵羊：多圆叠加的蓬松身体 ---------- */
   cloudpuff: {
-    color: "#E8F6FF",
-    shade: "#CBE6F7",
-    blush: "#FFA6C9",
+    ...SPECIES_BASE.cloudpuff,
     eyeX: 22,
     eyeY: 108,
     eyeR: 11,
@@ -148,9 +144,7 @@ const ART: Record<Species, SpeciesArt> = {
 
   /* ---------- 芽芽龙：圆身 + 头顶嫩芽 + 尾巴 ---------- */
   sprout: {
-    color: "#C9F2C7",
-    shade: "#A6DFA4",
-    blush: "#FF9EC4",
+    ...SPECIES_BASE.sprout,
     eyeX: 21,
     eyeY: 110,
     eyeR: 11,
@@ -171,6 +165,57 @@ const ART: Record<Species, SpeciesArt> = {
         <path d="M100 26 C116 20 128 26 130 38 C116 44 104 38 100 26 Z" fill="#6FC96C" />
         <ellipse cx="100" cy="140" rx="38" ry="26" fill="#fff" opacity=".35" />
         <ellipse cx="74" cy="78" rx="16" ry="11" fill="#fff" opacity=".5" />
+      </>
+    ),
+  },
+
+  /* ---------- 小幽灵：圆顶 + 波浪下摆 ---------- */
+  whispy: {
+    ...SPECIES_BASE.whispy,
+    eyeX: 22,
+    eyeY: 104,
+    eyeR: 11,
+    eyeRy: 13,
+    cheekX: 40,
+    cheekY: 124,
+    cheekR: 9,
+    mouthY: 132,
+    body: (
+      <>
+        {/* 下摆用连续的小弧做出波浪，是幽灵辨识度的来源 */}
+        <path
+          d="M36 110 C36 68 62 38 100 38 C138 38 164 68 164 110 L164 148 C158 140 150 140 144 148 C138 156 130 156 124 148 C118 140 110 140 104 148 C98 156 90 156 84 148 C78 140 70 140 64 148 C58 156 50 156 44 148 Z"
+          fill="currentColor"
+        />
+        <ellipse cx="74" cy="72" rx="20" ry="14" fill="#fff" opacity=".55" />
+        <ellipse cx="120" cy="92" rx="10" ry="7" fill="#fff" opacity=".35" />
+      </>
+    ),
+  },
+
+  /* ---------- 星星兽：五角星，圆润感靠粗描边的圆角连接 ---------- */
+  twinkle: {
+    ...SPECIES_BASE.twinkle,
+    // 星星的脸部可用面积比圆形小得多，眼睛内收、位置抬高
+    eyeX: 18,
+    eyeY: 100,
+    eyeR: 10,
+    eyeRy: 12,
+    cheekX: 33,
+    cheekY: 118,
+    cheekR: 8,
+    mouthY: 126,
+    body: (
+      <>
+        <path
+          d="M100 36 L123.5 75.6 L168.5 85.8 L138 119.8 L142.3 166.2 L100 148 L57.7 166.2 L62 119.8 L31.5 85.8 L76.5 75.6 Z"
+          fill="currentColor"
+          stroke={INK}
+          strokeWidth="3.2"
+          strokeLinejoin="round"
+        />
+        {/* 顶角的高光，让星形不至于看起来是一块平板 */}
+        <path d="M100 40 L121 76 L100 104 L79 76 Z" fill="#fff" opacity=".38" />
       </>
     ),
   },
@@ -380,19 +425,22 @@ function Egg({
   hatchProgress: number;
 }) {
   const art = ART[species];
-  // 裂纹随孵化进度一条条出现，给玩家「快出来了」的期待
+  // 裂纹随孵化进度一条条出现，给玩家「快出来了」的期待。
+  // 档位判定和音效共用 core 里的 crackStageOf —— 分头实现迟早会错位。
   const cracks = [
     "M100 62 l-9 12 l7 8 l-11 12",
     "M78 108 l10 -7 l6 9 l10 -6",
     "M124 96 l-9 9 l8 7 l-10 9",
   ];
-  const visibleCracks = Math.floor(hatchProgress * (cracks.length + 1));
+  const visibleCracks = Math.min(cracks.length, crackStageOf(hatchProgress));
+  // 裂得越多晃得越厉害 —— 静态的裂纹少一点临场感
+  const stage = crackStageOf(hatchProgress);
 
   return (
     <svg viewBox="0 0 200 200" className="pet-svg" style={{ color: art.color }} role="img" aria-label="egg">
       <ellipse className="pet-shadow" cx="100" cy="188" rx="44" ry="8" />
 
-      <g className="pet-root is-egg">
+      <g className={`pet-root is-egg${stage >= 2 ? " is-cracking" : ""}${stage >= 4 ? " is-bursting" : ""}`}>
         <g className="pet-body">
           <path
             d="M100 32 C128 32 150 74 150 120 C150 156 128 178 100 178 C72 178 50 156 50 120 C50 74 72 32 100 32 Z"

@@ -15,10 +15,10 @@ import { useCanvasLoop } from "./useCanvasLoop";
 const FRUITS = ["🍎", "🍊", "🍇", "🍓", "🍋", "🍑", "🍒", "🥝"];
 
 /** 起始生成间隔与下限 —— 越往后掉得越密，构成难度曲线 */
-const SPAWN_START_MS = 820;
-const SPAWN_MIN_MS = 340;
-/** 难度爬满所需时长 */
-const RAMP_MS = 45_000;
+const SPAWN_START_MS = 680;
+const SPAWN_MIN_MS = 230;
+/** 难度爬满所需时长。缩短之后 30 秒的局内也能明显感觉到变快。 */
+const RAMP_MS = 22_000;
 
 interface Fruit {
   x: number;
@@ -64,7 +64,8 @@ export function CatchFruit({ onScore }: GameProps) {
         fruits.current.push({
           x: 0.08 + rand() * 0.84,
           y: -0.08,
-          vy: 0.00035 + rand() * 0.00018 + ramp * 0.00022,
+          // 下落速度整体上调约 35%，配合更密的生成间隔一起加难度
+          vy: 0.00048 + rand() * 0.00022 + ramp * 0.0003,
           emoji: FRUITS[Math.floor(rand() * FRUITS.length)] ?? "🍎",
         });
       }

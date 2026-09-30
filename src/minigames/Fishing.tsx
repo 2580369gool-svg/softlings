@@ -15,11 +15,11 @@ import { playSfx } from "../audio";
 import type { GameProps } from "./types";
 
 const CASTS = 5;
-/** 光标扫一个来回的时长 */
-const SWEEP_MS = 1_250;
+/** 光标扫一个来回的时长。扫得越快越难瞄。 */
+const SWEEP_MS = 940;
 /** 绿区半宽与完美窗口半宽（占全条比例） */
-const ZONE_HALF = 0.13;
-const PERFECT_HALF = 0.045;
+const ZONE_HALF = 0.1;
+const PERFECT_HALF = 0.032;
 /** 每次判定结果停留多久再开始下一竿 */
 const RESULT_HOLD_MS = 520;
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ANIM_CLASS, BEHAVIORS } from "./core/behavior";
@@ -15,6 +16,7 @@ import { ActionBar } from "./ui/ActionBar";
 import { ArcadeMenu } from "./ui/ArcadeMenu";
 import { BehaviorBubble } from "./ui/BehaviorBubble";
 import { GameResult } from "./ui/GameResult";
+import { HatchModal } from "./ui/HatchModal";
 import { Habitat } from "./ui/Habitat";
 import { InventoryStrip } from "./ui/InventoryStrip";
 import { LanguageToggle } from "./ui/LanguageToggle";
@@ -23,6 +25,7 @@ import { NeedBar } from "./ui/NeedBar";
 import { OfflineModal } from "./ui/OfflineModal";
 import { PersonalityChips } from "./ui/PersonalityChips";
 import { PetGallery } from "./ui/PetGallery";
+import { RenameModal } from "./ui/RenameModal";
 import { Shop } from "./ui/Shop";
 import { SoundToggle } from "./ui/SoundToggle";
 import { SpeciesPicker } from "./ui/SpeciesPicker";
@@ -64,6 +67,10 @@ export default function App() {
   useGameLoop();
   useAutonomy();
   useAudio();
+
+  // 改名弹窗的开关。放在组件本地而不是 store：它是纯 UI 状态，
+  // 存进 store 反而会污染「顶层界面」那套路由状态。
+  const [renaming, setRenaming] = useState(false);
 
   const { t } = useTranslation();
   const sim = useGameStore((s) => s.sim);
@@ -144,7 +151,19 @@ export default function App() {
     <div className="app">
       <header className="app__header">
         <div className="app__identity">
-          <span className="app__name">{pet.name || t("app.name")}</span>
+          {/* 名字本身就是改名入口 —— 比在设置里藏一个「重命名」菜单直观得多 */}
+          <button
+            type="button"
+            className="app__name"
+            onClick={() => setRenaming(true)}
+            aria-label={t("rename.open")}
+            title={t("rename.open")}
+          >
+            {pet.name || t("app.name")}
+            <span className="app__nameEdit" aria-hidden="true">
+              ✏️
+            </span>
+          </button>
           <span className="app__badge">{t(`stage.${pet.stage}`)}</span>
         </div>
 
@@ -257,7 +276,11 @@ export default function App() {
         <OfflineModal report={offlineReport} onClose={dismissOffline} />
       )}
 
-      {milestone && (
+      {/* 破壳走单独的演出组件：先让蛋壳真的裂开飞出去，再露出幼体 */}
+      {milestone?.kind === "hatch" && (
+        <HatchModal species={pet.species} onClose={dismissMilestone} />
+      )}
+      {milestone && milestone.kind !== "hatch" && (
         <MilestoneModal
           milestone={milestone}
           species={pet.species}
@@ -267,6 +290,8 @@ export default function App() {
 
       {/* 归来结算优先于其它弹窗：它是玩家等了半小时才等到的一刻 */}
       {!milestone && <TripReturnModal />}
+
+      {renaming && <RenameModal onClose={() => setRenaming(false)} />}
 
       {/* 屏幕阅读器可读的状态播报 */}
       <p className="sr-only" aria-live="polite">

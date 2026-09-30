@@ -72,17 +72,17 @@ export function inventoryCount(inv: Inventory, id: ItemId): number {
 /**
  * 小游戏分数换算成金币。
  *
- * 定标依据：一次 30 秒的小游戏应该能买得起 1–2 个便宜道具（6–16 币），
- * 或者攒两次买一个贵道具（24 币）。
- * 定太高会让互动奖励（经验折币）变得毫无意义，定太低则没人愿意玩。
+ * 第一版给 1.1，实机试下来金币溢出得太快 —— 玩两局就能买空商店，
+ * 商店和「照顾宠物赚经验」这两条路径都失去了意义。
+ * 现在压到 0.6：一局好成绩（约 30 分）≈ 18 币，刚好够一个普通道具。
  */
-export const COIN_PER_POINT = 1.1;
+export const COIN_PER_POINT = 0.6;
 
 /** 保底奖励：玩得再差也不该空手而归，否则挫败感太强 */
-export const MIN_GAME_COINS = 5;
+export const MIN_GAME_COINS = 3;
 
 /** 每天通过小游戏能拿到的金币上限 —— 防止玩家刷小游戏绕过照护 */
-export const DAILY_GAME_COIN_CAP = 260;
+export const DAILY_GAME_COIN_CAP = 160;
 
 export function coinsForScore(score: number): number {
   return Math.max(MIN_GAME_COINS, Math.round(score * COIN_PER_POINT));

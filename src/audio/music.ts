@@ -12,7 +12,7 @@
    setTimeout 的精度，切后台回来也不会跑调。
    ============================================================ */
 
-import { getContext, getMusicBus, isMuted } from "./engine";
+import { getContext, getMusicBus, isMuted, MUSIC_BASE_GAIN } from "./engine";
 
 /** 每分钟拍数。慢一点更适合长时间挂机。 */
 const BPM = 84;
@@ -23,6 +23,14 @@ const PATTERN_STEPS = 32;
 /** 五声音阶相对 C5 的半音偏移 */
 const SCALE = [0, 2, 4, 7, 9];
 const C5 = 523.25;
+
+/**
+ * 单个音符的增益。
+ * 第一版给的是 0.16 / 0.22，叠加上当时只有 0.15 的总增益，实机上几乎听不见。
+ * 现在配合 engine 那边调高的总线和限幅器一起提上来。
+ */
+const MELODY_GAIN = 0.3;
+const BASS_GAIN = 0.32;
 
 function freqOf(semitonesFromC5: number): number {
   return C5 * Math.pow(2, semitonesFromC5 / 12);
@@ -67,11 +75,9 @@ export function duckMusic(durationS = 0.6, depth = 0.4): void {
 
   bus.gain.cancelScheduledValues(now);
   bus.gain.setValueAtTime(bus.gain.value, now);
-  bus.gain.linearRampToValueAtTime(BASE_MUSIC_GAIN * depth, now + 0.05);
-  bus.gain.linearRampToValueAtTime(BASE_MUSIC_GAIN, end + 0.25);
+  bus.gain.linearRampToValueAtTime(MUSIC_BASE_GAIN * depth, now + 0.05);
+  bus.gain.linearRampToValueAtTime(MUSIC_BASE_GAIN, end + 0.25);
 }
-
-const BASE_MUSIC_GAIN = 0.3;
 
 function scheduleStep(index: number, time: number): void {
   const ctx = getContext();
@@ -89,7 +95,7 @@ function scheduleStep(index: number, time: number): void {
 
       const env = ctx.createGain();
       env.gain.setValueAtTime(0.0001, time);
-      env.gain.exponentialRampToValueAtTime(0.16, time + 0.02);
+      env.gain.exponentialRampToValueAtTime(MELODY_GAIN, time + 0.02);
       env.gain.exponentialRampToValueAtTime(0.0001, time + STEP_S * 1.8);
 
       osc.connect(env);
@@ -108,7 +114,7 @@ function scheduleStep(index: number, time: number): void {
 
     const env = ctx.createGain();
     env.gain.setValueAtTime(0.0001, time);
-    env.gain.exponentialRampToValueAtTime(0.22, time + 0.04);
+    env.gain.exponentialRampToValueAtTime(BASS_GAIN, time + 0.04);
     env.gain.exponentialRampToValueAtTime(0.0001, time + STEP_S * 6);
 
     osc.connect(env);

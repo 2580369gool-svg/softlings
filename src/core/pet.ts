@@ -17,6 +17,39 @@ import {
   type Stage,
 } from "./types";
 
+/**
+ * 昵称长度上限。
+ * 12 个字符足够起「小布丁」「Mochi」这类名字，又不会长到把顶部栏撑爆。
+ * 中英文按字符数统一计算 —— 中文 12 字在界面上已经相当长了。
+ */
+export const PET_NAME_MAX = 12;
+
+/**
+ * 孵化进度对应到第几道裂纹（0 = 还没裂，1..3 = 第几道，4 = 即将破壳）。
+ *
+ * 放在 core 里而不是各自实现，是因为渲染（画裂纹）和音效（听到碎裂声）
+ * 必须用同一套阈值 —— 两处各写一份的话，迟早会出现
+ * 「听到响声但看不到新裂纹」这种对不上的情况。
+ */
+export function crackStageOf(progress: number): number {
+  if (progress >= 0.99) return 4;
+  if (progress >= 0.72) return 3;
+  if (progress >= 0.46) return 2;
+  if (progress >= 0.22) return 1;
+  return 0;
+}
+
+/** 蛋壳上总共画几道裂纹 */
+export const EGG_CRACK_COUNT = 3;
+
+/** 清洗玩家输入的昵称：去首尾空白、压掉换行、截断到上限 */
+export function sanitizePetName(raw: string): string {
+  return raw
+    .replace(/[\r\n\t]/g, " ")
+    .trim()
+    .slice(0, PET_NAME_MAX);
+}
+
 /** 出生时的初始需求值 —— 留一点缺口，引导玩家立刻去互动 */
 export const INITIAL_NEEDS = {
   satiety: 78,

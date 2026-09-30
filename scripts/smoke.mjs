@@ -169,7 +169,7 @@ console.log(`\n浏览器: ${browser}\n`);
   console.log("\n── 场景 C：首次进入（无存档）──");
   const { html, body } = await render(); // 不带参数 → 但 seed 总会写档…
 
-  // seed 页一定会写存档，所以这里直接验证「4 个种族都能渲染出来」
+  // seed 页一定会写存档，所以这里直接验证宠物能渲染出来
   check("页面成功加载（无 ERR_）", !/ERR_[A-Z_]+/.test(html));
   check("宠物成功渲染", count(body, /<svg/g) >= 1);
 }
@@ -250,6 +250,12 @@ const LINES = [
   { id: "sprout_blossom", species: "sprout", accent: "#FF8FB1", zh: "花冠龙" },
   { id: "sprout_crystal", species: "sprout", accent: "#B8A6FF", zh: "宝石龙" },
   { id: "sprout_ember", species: "sprout", accent: "#FF7A3C", zh: "烛焰龙" },
+  { id: "whispy_moonshine", species: "whispy", accent: "#C9D4FF", zh: "月光精灵" },
+  { id: "whispy_lampling", species: "whispy", accent: "#FFB05C", zh: "烛光精灵" },
+  { id: "whispy_shade", species: "whispy", accent: "#6B5B95", zh: "暗影幽灵" },
+  { id: "twinkle_comet", species: "twinkle", accent: "#FF9E2C", zh: "流星兽" },
+  { id: "twinkle_crystal", species: "twinkle", accent: "#7FD4E8", zh: "水晶星" },
+  { id: "twinkle_meteor", species: "twinkle", accent: "#C24A28", zh: "陨石兽" },
 ];
 
 for (const line of LINES) {
@@ -308,14 +314,14 @@ for (const line of LINES) {
   check("显示图鉴标题", body.includes("进化图鉴"));
   check(
     "渲染出 12 个进化格子",
-    count(body, /class="cell"/g) === 12,
+    count(body, /class="cell"/g) === 18,
     `实际 ${count(body, /class="cell"/g)}`,
   );
   check(
-    "四个种族分组齐全",
-    ["布丁兽", "麻薯猫", "云朵羊", "芽芽龙"].every((s) => body.includes(s)),
+    "种族分组齐全",
+    ["布丁兽", "麻薯猫", "云朵羊", "芽芽龙", "小幽灵", "星星兽"].every((s) => body.includes(s)),
   );
-  check("三种照护路线的标签都在", count(body, /cell__path--/g) === 12);
+  check("每个格子的照护路线标签都在", count(body, /cell__path--/g) === 18);
 }
 
 /* ============================================================
@@ -347,8 +353,8 @@ for (const line of LINES) {
   check("页面成功加载（无 ERR_）", !/ERR_[A-Z_]+/.test(html));
   check("显示标题", body.includes("小游戏"));
   check(
-    "六个游戏卡片全部渲染",
-    count(body, /class="game-card"/g) === 6,
+    "九个小游戏卡片全部渲染",
+    count(body, /class="game-card"/g) === 9,
     `实际 ${count(body, /class="game-card"/g)}`,
   );
   check("显示今日额度", body.includes("今日还可赚"));
@@ -381,6 +387,9 @@ const GAME_CASES = [
   { id: "rockPaperScissors", zh: "猜拳", selector: "rps__btn" },
   { id: "fishing", zh: "钓鱼", selector: "fishing__button" },
   { id: "memoryMatch", zh: "记忆翻牌", selector: "memory__card" },
+  { id: "whackMole", zh: "打地鼠", selector: "whack__cell" },
+  { id: "paddleBall", zh: "挡球", selector: "mg__canvas" },
+  { id: "stackTower", zh: "叠塔", selector: "stack__block" },
 ];
 
 for (const g of GAME_CASES) {

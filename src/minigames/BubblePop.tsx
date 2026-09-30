@@ -11,11 +11,11 @@ import { playSfx } from "../audio";
 import type { GameProps } from "./types";
 import { useCanvasLoop } from "./useCanvasLoop";
 
-const SPAWN_START_MS = 640;
-const SPAWN_MIN_MS = 260;
-/** 陷阱泡泡出现概率，随时间缓慢上升 */
-const BAD_START = 0.12;
-const BAD_MAX = 0.28;
+const SPAWN_START_MS = 520;
+const SPAWN_MIN_MS = 180;
+/** 陷阱泡泡出现概率，随时间缓慢上升。调高之后「看一眼再点」才真正成为玩法。 */
+const BAD_START = 0.18;
+const BAD_MAX = 0.4;
 
 const GOOD_COLORS = [
   { fill: "rgba(255,107,157,0.55)", stroke: "#FF6B9D" },
@@ -91,7 +91,7 @@ export function BubblePop({ onScore }: GameProps) {
           x: r + rand() * Math.max(1, w - r * 2),
           y: h + r,
           r,
-          vy: 0.055 + rand() * 0.045 + ramp * 0.03,
+          vy: 0.075 + rand() * 0.055 + ramp * 0.042,
           vx: (rand() - 0.5) * 0.02,
           bad: rand() < badChance,
           colorIndex: Math.floor(rand() * GOOD_COLORS.length),

@@ -13,6 +13,12 @@
     "mute": "Mute",
     "unmute": "Unmute"
   },
+  "rename": {
+    "title": "Give it a name",
+    "hint": "Up to {{max}} characters — leave empty for the default",
+    "placeholder": "e.g. Pudding",
+    "open": "Rename your pet"
+  },
   "lang": {
     "label": "Language",
     "zh": "中文",
@@ -22,13 +28,17 @@
     "puddly": "Puddly",
     "mochi": "Mochi Cat",
     "cloudpuff": "Cloudpuff",
-    "sprout": "Sproutling"
+    "sprout": "Sproutling",
+    "whispy": "Whispy",
+    "twinkle": "Twinkle"
   },
   "speciesDesc": {
     "puddly": "Made of jelly — wobbles when poked",
     "mochi": "A rice-cake spirit, the clingiest of all",
     "cloudpuff": "A fluffy cloud that loves napping",
-    "sprout": "A tiny dragon with a sprout, endlessly curious"
+    "sprout": "A tiny dragon with a sprout, endlessly curious",
+    "whispy": "Light as air — floats an inch off the ground",
+    "twinkle": "A little star that fell out of the sky"
   },
   "stage": {
     "egg": "Egg",
@@ -211,7 +221,19 @@
     "rhythmTap": { "name": "Rhythm Tap", "desc": "Tap the lane when a note hits the line" },
     "rockPaperScissors": { "name": "Rock Paper Scissors", "desc": "Best of five" },
     "fishing": { "name": "Go Fishing", "desc": "Stop the hook in the green — five casts" },
-    "memoryMatch": { "name": "Memory Match", "desc": "Pair up all 8 symbols" }
+    "memoryMatch": { "name": "Memory Match", "desc": "Pair up all 8 symbols" },
+    "whackMole": { "name": "Whack-a-Mole", "desc": "Tap the critters — avoid the bombs" },
+    "paddleBall": { "name": "Paddle Ball", "desc": "Slide the paddle, keep the ball up" },
+    "stackTower": { "name": "Stack Tower", "desc": "Drop on time — miss and it shrinks" }
+  },
+  "whack": {
+    "hint": "Tap the critters, avoid the bombs",
+    "mole": "Popped-up mole",
+    "bomb": "Bomb",
+    "empty": "Empty cell"
+  },
+  "stack": {
+    "hint": "Tap to drop the block — the closer the better"
   },
   "rhythm": {
     "lane": "Lane {{n}}",
@@ -311,6 +333,30 @@
     "sprout_ember": {
       "name": "Ember Dragon",
       "desc": "A flame that never goes out burns at the tip of its tail."
+    },
+    "whispy_moonshine": {
+      "name": "Moonshine",
+      "desc": "Glows softly at night, with a little moon floating overhead."
+    },
+    "whispy_lampling": {
+      "name": "Lampling",
+      "desc": "Lit itself up into a warm lamp — you feel calmer standing near."
+    },
+    "whispy_shade": {
+      "name": "Shade",
+      "desc": "Keeps to the dark corners and grew sullen, but still knows you."
+    },
+    "twinkle_comet": {
+      "name": "Comet",
+      "desc": "Trails a rainbow, leaving a line of light wherever it flies."
+    },
+    "twinkle_crystal": {
+      "name": "Crystal Star",
+      "desc": "Became see-through — you can watch the light turning inside."
+    },
+    "twinkle_meteor": {
+      "name": "Meteor",
+      "desc": "Scorched cracks cover its surface, with embers still burning underneath."
     }
   },
   "units": {

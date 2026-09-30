@@ -13,6 +13,12 @@
     "mute": "关闭声音",
     "unmute": "打开声音"
   },
+  "rename": {
+    "title": "给它起个名字",
+    "hint": "最多 {{max}} 个字，留空就用默认称呼",
+    "placeholder": "比如：小布丁",
+    "open": "给宠物改名"
+  },
   "lang": {
     "label": "语言",
     "zh": "中文",
@@ -22,13 +28,17 @@
     "puddly": "布丁兽",
     "mochi": "麻薯猫",
     "cloudpuff": "云朵羊",
-    "sprout": "芽芽龙"
+    "sprout": "芽芽龙",
+    "whispy": "小幽灵",
+    "twinkle": "星星兽"
   },
   "speciesDesc": {
     "puddly": "果冻做的，一碰就 Q 弹地晃",
     "mochi": "糯米团子成精，最粘人",
     "cloudpuff": "软乎乎的云朵，爱睡懒觉",
-    "sprout": "头顶嫩芽的小龙，好奇心旺盛"
+    "sprout": "头顶嫩芽的小龙，好奇心旺盛",
+    "whispy": "轻飘飘的，走路脚不沾地",
+    "twinkle": "从天上掉下来的小星星"
   },
   "stage": {
     "egg": "蛋",
@@ -211,7 +221,19 @@
     "rhythmTap": { "name": "节奏敲击", "desc": "音符落到判定线时点对应轨道" },
     "rockPaperScissors": { "name": "猜拳", "desc": "五局定胜负" },
     "fishing": { "name": "钓鱼", "desc": "让鱼钩停在绿区，共五次机会" },
-    "memoryMatch": { "name": "记忆翻牌", "desc": "把 8 对图案全部配对" }
+    "memoryMatch": { "name": "记忆翻牌", "desc": "把 8 对图案全部配对" },
+    "whackMole": { "name": "打地鼠", "desc": "点中冒头的它，小心炸弹" },
+    "paddleBall": { "name": "挡球", "desc": "滑动挡板，别让球掉下去" },
+    "stackTower": { "name": "叠塔", "desc": "看准时机放下，错开就没了" }
+  },
+  "whack": {
+    "hint": "点中冒头的，避开炸弹",
+    "mole": "冒头的地鼠",
+    "bomb": "炸弹",
+    "empty": "空格子"
+  },
+  "stack": {
+    "hint": "点屏幕放下方块 —— 越对准越好"
   },
   "rhythm": {
     "lane": "轨道 {{n}}",
@@ -311,6 +333,30 @@
     "sprout_ember": {
       "name": "烛焰龙",
       "desc": "尾巴上燃着一簇永远不会熄灭的火。"
+    },
+    "whispy_moonshine": {
+      "name": "月光精灵",
+      "desc": "夜里会轻轻发亮，头顶浮着一轮小小的月亮。"
+    },
+    "whispy_lampling": {
+      "name": "烛光精灵",
+      "desc": "把自己点燃成了一盏暖灯，靠近会觉得安心。"
+    },
+    "whispy_shade": {
+      "name": "暗影幽灵",
+      "desc": "习惯待在暗处，脾气也变得阴沉，但依然认得出你。"
+    },
+    "twinkle_comet": {
+      "name": "流星兽",
+      "desc": "拖着彩虹色的尾巴，飞过的地方会留下一串光。"
+    },
+    "twinkle_crystal": {
+      "name": "水晶星",
+      "desc": "身体变得通透，能看见里面的光在慢慢转。"
+    },
+    "twinkle_meteor": {
+      "name": "陨石兽",
+      "desc": "表面布满烧灼的裂纹，里面还藏着没熄的火。"
     }
   },
   "units": {

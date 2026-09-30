@@ -11,10 +11,21 @@
    所以 ensureAudio() 只在第一次点击/触摸时被调用。
    ============================================================ */
 
-/** 分层音量。音乐刻意压得比音效低，避免长时间游玩时疲劳。 */
-const MASTER_VOLUME = 0.5;
-const MUSIC_VOLUME = 0.3;
-const SFX_VOLUME = 0.75;
+/**
+ * 分层音量。
+ *
+ * 第一版给得太保守（实际音乐增益只有 0.5×0.3=0.15），实机上几乎听不见。
+ * 现在音乐的实际增益是 0.9×0.6=0.54，音效 0.9×1.0=0.9。
+ * 之所以敢拉这么大，是因为总线上挂了一个限幅器（见下面的 compressor），
+ * 多路声音叠加时会被压住峰值，不会削波爆音。
+ */
+const MASTER_VOLUME = 0.9;
+/** 音乐仍然比音效低一档：长时间挂着当背景，太抢耳会疲劳 */
+const MUSIC_VOLUME = 0.6;
+const SFX_VOLUME = 1.0;
+
+/** 供 music.ts 做闪避（ducking）时还原用，避免两处常量各写一份 */
+export const MUSIC_BASE_GAIN = MUSIC_VOLUME;
 
 const MUTE_KEY = "softlings.muted";
 
@@ -66,7 +77,19 @@ export function ensureAudio(): AudioContext | null {
 
     masterGain = ctx.createGain();
     masterGain.gain.value = muted ? 0 : MASTER_VOLUME;
-    masterGain.connect(ctx.destination);
+
+    // 总线上挂限幅器：多路音效同时发声时把峰值压住。
+    // 没有它的话，音量调大之后「击中 + 音乐 + 环境音」叠在一起会削波，
+    // 听感是刺耳的爆音而不是「变响」。
+    const limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = -6; // 超过 -6dB 开始压
+    limiter.knee.value = 6;
+    limiter.ratio.value = 12; // 强压缩，接近限幅
+    limiter.attack.value = 0.003; // 起音要快，否则瞬态还是能钻过去
+    limiter.release.value = 0.25;
+
+    masterGain.connect(limiter);
+    limiter.connect(ctx.destination);
 
     musicGain = ctx.createGain();
     musicGain.gain.value = MUSIC_VOLUME;

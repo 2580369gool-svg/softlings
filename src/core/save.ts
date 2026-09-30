@@ -16,7 +16,7 @@ import {
 } from "./habitat";
 import { isItemId, type Inventory } from "./items";
 import { clampNeed } from "./needs";
-import { defaultPersonality, stageForExp } from "./pet";
+import { defaultPersonality, sanitizePetName, stageForExp } from "./pet";
 import {
   BENTOS,
   createTravel,
@@ -117,7 +117,8 @@ function sanitizePet(raw: unknown): Pet | null {
   return {
     id: typeof raw.id === "string" && raw.id ? raw.id : `pet_${Date.now().toString(36)}`,
     species,
-    name: typeof raw.name === "string" ? raw.name : "",
+    // 昵称长度也在这里夹一次：老存档可能来自没有长度限制的版本
+    name: sanitizePetName(typeof raw.name === "string" ? raw.name : ""),
     stage: oneOf<Stage>(raw.stage, STAGES, stageForExp(exp)),
     bornAt: numOr(raw.bornAt, Date.now()),
     exp,

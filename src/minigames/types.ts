@@ -12,7 +12,10 @@ export type GameId =
   | "rhythmTap"
   | "rockPaperScissors"
   | "fishing"
-  | "memoryMatch";
+  | "memoryMatch"
+  | "whackMole"
+  | "paddleBall"
+  | "stackTower";
 
 /**
  * 游戏组件的契约。
@@ -39,13 +42,25 @@ export interface GameDef {
   favoredBy: Species;
 }
 
+/**
+ * 九个游戏。
+ * favoredBy 保证六只宠物各有至少一个本命游戏 —— 「有的种族天生吃亏」
+ * 是很容易犯的设计错误，测试里有一条断言专门盯着这个。
+ */
 export const GAMES: Record<GameId, GameDef> = {
   catchFruit: { id: "catchFruit", durationMs: 30_000, favoredBy: "puddly" },
   bubblePop: { id: "bubblePop", durationMs: 30_000, favoredBy: "mochi" },
   rhythmTap: { id: "rhythmTap", durationMs: 28_000, favoredBy: "sprout" },
   rockPaperScissors: { id: "rockPaperScissors", durationMs: 60_000, favoredBy: "mochi" },
   fishing: { id: "fishing", durationMs: 40_000, favoredBy: "cloudpuff" },
-  memoryMatch: { id: "memoryMatch", durationMs: 60_000, favoredBy: "sprout" },
+  // 记忆翻牌原本给 60 秒，实测太宽裕 —— 8 对图案随便翻都来得及，
+  // 压到 45 秒才需要真的记住位置
+  memoryMatch: { id: "memoryMatch", durationMs: 45_000, favoredBy: "sprout" },
+
+  // 机制上刻意和上面六个区分开：反应速度 / 持续跟踪 / 时机精度
+  whackMole: { id: "whackMole", durationMs: 28_000, favoredBy: "twinkle" },
+  paddleBall: { id: "paddleBall", durationMs: 35_000, favoredBy: "whispy" },
+  stackTower: { id: "stackTower", durationMs: 30_000, favoredBy: "twinkle" },
 };
 
 export const GAME_IDS = Object.keys(GAMES) as GameId[];

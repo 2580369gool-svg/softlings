@@ -33,12 +33,34 @@
   min-width: 0;
 }
 
+/* 名字是按钮（改名入口），所以要先清掉 button 的默认样式 */
 .app__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  min-width: 0;
+  padding: 0 6px;
   font-size: var(--fs-md);
   font-weight: var(--fw-black);
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: var(--r-sm);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.app__name:active {
+  background: rgba(74, 59, 99, 0.08);
+}
+
+/* 铅笔默认很淡，不抢视线；只在名字够长时才可能被挤掉 */
+.app__nameEdit {
+  flex: none;
+  font-size: 11px;
+  opacity: 0.5;
 }
 
 .app__badge {

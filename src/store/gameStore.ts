@@ -18,7 +18,7 @@ import {
   type ItemId,
 } from "../core/items";
 import { applyActionEffects, clampNeed } from "../core/needs";
-import { createState, gainExp } from "../core/pet";
+import { crackStageOf, createState, gainExp, sanitizePetName } from "../core/pet";
 import { reinforcePersonality } from "../core/personality";
 import { clearSave, loadSave, persist } from "../core/save";
 import { PLACEMENTS, type PlacementId } from "../core/habitat";
@@ -106,6 +106,9 @@ function celebrate(milestone: Milestone): void {
   duckMusic(1.6, 0.25);
 }
 
+/** 上一次响过的裂纹档位。纯 UI 状态，不进存档。 */
+let lastCrackStage = 0;
+
 /** 逗弄有概率翻车：宠物闹脾气，心情不升反降 —— 让互动不是无脑收益 */
 const TEASE_BACKFIRE_CHANCE = 0.25;
 const TEASE_BACKFIRE_PENALTY = 10;
@@ -165,6 +168,8 @@ interface GameStore {
   buyItem: (id: ItemId) => boolean;
   /** 使用一个道具，没有存货返回 false */
   useItem: (id: ItemId) => boolean;
+  /** 给宠物改昵称。传空字符串表示恢复默认称呼。 */
+  renamePet: (name: string) => void;
   /** 买一件饰品，金币不够返回 false */
   buyAccessory: (id: AccessoryId) => boolean;
   /** 穿上 / 脱下（重复点同一件即脱下） */
@@ -228,6 +233,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // 破壳就发生在 tick 里（孵化进度走时钟），所以这里必须检测
     const milestone = detectMilestone(sim.pet, next.pet);
     if (milestone) celebrate(milestone);
+
+    // 孵化途中每跨过一道裂纹就响一声。
+    // 只存「上一次是第几道」，跨档才响 —— 否则每 5 秒的 tick 都会响一次。
+    if (next.pet.stage === "egg") {
+      const stage = crackStageOf(next.pet.hatchProgress);
+      if (stage > lastCrackStage) {
+        lastCrackStage = stage;
+        playSfx("crack");
+      }
+    } else {
+      lastCrackStage = 0;
+    }
 
     // 院子里刚来了新访客 —— 这件事发生在离线推进里，玩家很可能不在看，
     // 所以声音只是锦上添花，真正的呈现靠家园界面的到场动画
@@ -344,6 +361,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   dismissOffline: () => set({ offlineReport: null }),
   dismissMilestone: () => set({ milestone: null }),
+
+  renamePet: (name) => {
+    const { sim } = get();
+    if (!sim) return;
+
+    const next: SimState = {
+      ...sim,
+      pet: { ...sim.pet, name: sanitizePetName(name) },
+    };
+    playSfx("talk");
+    set({ sim: next });
+    persist(next);
+  },
 
   startTrip: (bento) => {
     const { sim } = get();

@@ -46,13 +46,15 @@ export const ACTION_KEYS = [
 ] as const satisfies readonly ActionKey[];
 
 /** 初始种族 */
-export type Species = "puddly" | "mochi" | "cloudpuff" | "sprout";
+export type Species = "puddly" | "mochi" | "cloudpuff" | "sprout" | "whispy" | "twinkle";
 
 export const SPECIES = [
   "puddly",
   "mochi",
   "cloudpuff",
   "sprout",
+  "whispy",
+  "twinkle",
 ] as const satisfies readonly Species[];
 
 /** 成长阶段 */

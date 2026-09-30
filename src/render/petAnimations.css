@@ -315,6 +315,61 @@
   }
 }
 
+/* ---------------- 蛋的孵化 ----------------
+   晃动幅度随裂纹档位递增：一开始只是轻轻摇，裂开两道之后开始明显抖，
+   最后半秒是快要炸开的高频震动。这三级递进是「快出来了」的全部来源。 */
+
+.pet-root.is-egg {
+  animation: egg-wobble-slight 3.2s ease-in-out infinite;
+}
+
+.pet-root.is-egg.is-cracking {
+  animation: egg-wobble-strong 1.5s ease-in-out infinite;
+}
+
+.pet-root.is-egg.is-bursting {
+  animation: egg-burst 340ms ease-in-out infinite;
+}
+
+@keyframes egg-wobble-slight {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  35% {
+    transform: rotate(-2.4deg);
+  }
+  70% {
+    transform: rotate(2.4deg);
+  }
+}
+
+@keyframes egg-wobble-strong {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  20% {
+    transform: rotate(-5deg) scale(1.02);
+  }
+  55% {
+    transform: rotate(4.5deg) scale(0.99);
+  }
+  80% {
+    transform: rotate(-2deg) scale(1.01);
+  }
+}
+
+@keyframes egg-burst {
+  0%,
+  100% {
+    transform: scale(1) rotate(-1deg);
+  }
+  50% {
+    transform: scale(1.06) rotate(1.5deg);
+  }
+}
+
 /* ---------------- 视线跟随 ---------------- */
 /* 加过渡让目光是「转过去」而不是瞬移 —— 这一下就决定了它像不像活的 */
 .pet-gaze {
