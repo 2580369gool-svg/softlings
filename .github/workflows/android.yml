@@ -65,6 +65,28 @@ jobs:
       - name: 同步到安卓工程
         run: npx cap sync android
 
+      # 显式把 SDK 路径写给 Gradle。
+      # 运行器上的 ANDROID_HOME 有时不生效（尤其是 Gradle 以独立进程运行时），
+      # 缺 local.properties 会直接报 "SDK location not found"。
+      # 同时预装 compileSdk 对应的 platform 并接受许可 ——
+      # 缺平台时 Gradle 会尝试自动下载，而许可证未接受就会失败。
+      - name: 准备 Android SDK
+        run: |
+          SDK="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "SDK 路径: $SDK"
+          echo "sdk.dir=$SDK" > android/local.properties
+          cat android/local.properties
+
+          SDKMGR="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          if [ -x "$SDKMGR" ]; then
+            yes | "$SDKMGR" --licenses > /dev/null 2>&1 || true
+            "$SDKMGR" "platforms;android-36" > /dev/null 2>&1 || true
+            echo "已安装的平台:"
+            ls "$SDK/platforms" 2>/dev/null || echo "(读不到 platforms 目录)"
+          else
+            echo "找不到 sdkmanager，跳过（运行器应已预装所需组件）"
+          fi
+
       # Windows 上的 Git 不保留可执行位，gradlew 到 Linux 上就没有执行权限。
       # 少了这一行，构建会以 "Permission denied" 失败。
       - name: 赋予 gradlew 执行权限
