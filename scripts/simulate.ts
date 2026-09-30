@@ -1165,8 +1165,13 @@ if (!existsSync(WORKFLOWS)) {
     /assembleDebug/.test(allWorkflowSrc) && /upload-artifact/.test(allWorkflowSrc),
   );
   check(
-    "打包前先跑测试（坏代码不该产出 APK）",
+    "流水线包含质量门禁（数值模拟 + 渲染冒烟）",
     /npm run check/.test(allWorkflowSrc),
+  );
+  // 打包与测试拆成并行作业：测试环境一旦有差异，不会连累 APK 出不来
+  check(
+    "打包与测试是两个独立作业（测试失败不阻塞出包）",
+    /^\s{2}apk:/m.test(allWorkflowSrc) && /^\s{2}verify:/m.test(allWorkflowSrc),
   );
 }
 
