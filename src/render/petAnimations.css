@@ -1,0 +1,464 @@
+/* ============================================================
+   宠物动画
+   性能红线：只动 transform / opacity（走 GPU 合成层），
+   绝不改 width / height / left / top，否则低端安卓机会掉帧。
+   ============================================================ */
+
+.pet-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.pet-shadow {
+  fill: rgba(74, 59, 99, 0.16);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pet-shadow-breathe 2.8s var(--ease-out) infinite;
+}
+
+.pet-root {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pet-idle 2.8s var(--ease-out) infinite;
+}
+
+.pet-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+/* 眼睛：偶尔眨一下，间隔刻意不整齐才自然 */
+.pet-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pet-blink 5.2s infinite;
+}
+
+/* ---------------- 待机：呼吸式挤压拉伸 ---------------- */
+
+@keyframes pet-idle {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  35% {
+    transform: translateY(-4px) scale(0.975, 1.035);
+  }
+  70% {
+    transform: translateY(1px) scale(1.025, 0.975);
+  }
+}
+
+@keyframes pet-shadow-breathe {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.16;
+  }
+  35% {
+    transform: scaleX(0.92);
+    opacity: 0.11;
+  }
+  70% {
+    transform: scaleX(1.04);
+    opacity: 0.19;
+  }
+}
+
+@keyframes pet-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+  98% {
+    transform: scaleY(1);
+  }
+}
+
+/* ---------------- 互动反应（一次性） ---------------- */
+
+/* 开心：蹦一下。
+   类名必须是 react-hop —— 代码里 reactionKind() 与自主行为的 ANIM_CLASS
+   都返回 "hop"。这里曾经写成 react-happy，导致玩家的摸摸/玩耍/说话/拍照
+   四个动作的动画静默失效了很久，是模拟器的跨文件一致性检查抓出来的。 */
+.pet-body.react-hop {
+  animation: pet-hop 560ms var(--ease-bounce);
+}
+
+@keyframes pet-hop {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  25% {
+    transform: translateY(2px) scale(1.14, 0.86);
+  }
+  55% {
+    transform: translateY(-26px) scale(0.9, 1.12);
+  }
+  80% {
+    transform: translateY(0) scale(1.08, 0.92);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
+/* 被逗弄翻车：左右摇头 */
+.pet-body.react-refuse {
+  animation: pet-shake 460ms var(--ease-out);
+}
+
+@keyframes pet-shake {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-8px) rotate(-4deg);
+  }
+  45% {
+    transform: translateX(7px) rotate(3.5deg);
+  }
+  70% {
+    transform: translateX(-4px) rotate(-2deg);
+  }
+}
+
+/* 洗澡：高频抖动 */
+.pet-body.react-wiggle {
+  animation: pet-wiggle 620ms ease-in-out;
+}
+
+@keyframes pet-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  15% {
+    transform: rotate(-7deg) scale(1.03);
+  }
+  35% {
+    transform: rotate(6deg) scale(0.98);
+  }
+  55% {
+    transform: rotate(-5deg) scale(1.02);
+  }
+  75% {
+    transform: rotate(3deg) scale(0.99);
+  }
+}
+
+/* 吃东西：连续上下小幅咀嚼 */
+.pet-body.react-chew {
+  animation: pet-chew 700ms var(--ease-out);
+}
+
+@keyframes pet-chew {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  20% {
+    transform: scale(0.96, 1.06);
+  }
+  40% {
+    transform: scale(1.05, 0.95);
+  }
+  60% {
+    transform: scale(0.97, 1.04);
+  }
+  80% {
+    transform: scale(1.02, 0.98);
+  }
+}
+
+/* ---------------- 自主行为（由效用 AI 触发） ---------------- */
+
+/* 伸懒腰：先压扁再拉长 */
+.pet-body.react-stretch {
+  animation: pet-stretch 1100ms var(--ease-out);
+}
+
+@keyframes pet-stretch {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.12, 0.86);
+  }
+  65% {
+    transform: scale(0.88, 1.16);
+  }
+  85% {
+    transform: scale(1.03, 0.97);
+  }
+}
+
+/* 打哈欠：轻微上扬再回位 */
+.pet-body.react-yawn {
+  animation: pet-yawn 1200ms var(--ease-out);
+}
+
+@keyframes pet-yawn {
+  0%,
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+  40% {
+    transform: scale(0.98, 1.08) translateY(-4px);
+  }
+  70% {
+    transform: scale(1.02, 0.97) translateY(2px);
+  }
+}
+
+/* 转圈 */
+.pet-body.react-spin {
+  animation: pet-spin 900ms var(--ease-bounce);
+}
+
+@keyframes pet-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.06);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* 讨要：向前倾 + 小幅点头，像在央求 */
+.pet-body.react-beg {
+  animation: pet-beg 1200ms var(--ease-out);
+}
+
+@keyframes pet-beg {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  20% {
+    transform: translateY(3px) scale(1.06, 0.94);
+  }
+  45% {
+    transform: translateY(-6px) scale(0.97, 1.04);
+  }
+  70% {
+    transform: translateY(1px) scale(1.03, 0.97);
+  }
+}
+
+/* 打瞌睡：缓慢点头，比打哈欠更沉 */
+.pet-body.react-doze {
+  animation: pet-doze 2000ms ease-in-out;
+}
+
+@keyframes pet-doze {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  35% {
+    transform: translateY(5px) rotate(-3deg);
+  }
+  65% {
+    transform: translateY(1px) rotate(2deg);
+  }
+}
+
+/* ---------------- 睡觉 ---------------- */
+
+.pet-root.is-sleeping {
+  animation: pet-sleep 4s ease-in-out infinite;
+}
+
+@keyframes pet-sleep {
+  0%,
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    transform: scale(1.03, 0.97) translateY(2px);
+  }
+}
+
+.pet-zzz text {
+  animation: pet-zzz-float 2.4s ease-in-out infinite;
+  opacity: 0;
+}
+.pet-zzz text:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.pet-zzz text:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes pet-zzz-float {
+  0% {
+    transform: translate(0, 6px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(10px, -22px);
+    opacity: 0;
+  }
+}
+
+/* ---------------- 视线跟随 ---------------- */
+/* 加过渡让目光是「转过去」而不是瞬移 —— 这一下就决定了它像不像活的 */
+.pet-gaze {
+  transition: transform 220ms var(--ease-out);
+  will-change: transform;
+}
+
+/* ---------------- 状态提示 ---------------- */
+
+/* 脏：两只小虫绕圈飞 */
+.pet-flies > g:first-child {
+  animation: pet-fly-a 3.4s linear infinite;
+}
+.pet-flies > g:last-child {
+  animation: pet-fly-b 2.6s linear infinite;
+}
+
+@keyframes pet-fly-a {
+  0% {
+    transform: translate(58px, 72px);
+  }
+  25% {
+    transform: translate(76px, 54px);
+  }
+  50% {
+    transform: translate(92px, 70px);
+  }
+  75% {
+    transform: translate(72px, 86px);
+  }
+  100% {
+    transform: translate(58px, 72px);
+  }
+}
+
+@keyframes pet-fly-b {
+  0% {
+    transform: translate(132px, 62px);
+  }
+  33% {
+    transform: translate(146px, 78px);
+  }
+  66% {
+    transform: translate(126px, 84px);
+  }
+  100% {
+    transform: translate(132px, 62px);
+  }
+}
+
+/* 累：汗珠往下淌 */
+.pet-sweat > path:first-child {
+  animation: pet-drip 2.2s ease-in infinite;
+}
+.pet-sweat > path:last-child {
+  animation: pet-drip 2.2s ease-in 0.9s infinite;
+}
+
+@keyframes pet-drip {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+/* 难过：眼泪掉下来 */
+.pet-tear > path {
+  animation: pet-tear-fall 2.6s ease-in infinite;
+}
+.pet-tear--delay > path {
+  animation-delay: 1.3s;
+}
+
+@keyframes pet-tear-fall {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(2px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(26px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* 饿：肚子咕咕叫的波纹，一明一暗 */
+.pet-hunger-wave {
+  animation: pet-rumble 1.6s ease-in-out infinite;
+}
+
+@keyframes pet-rumble {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(2px);
+  }
+}
+
+/* ---------------- 抚摸粒子 ---------------- */
+
+.pet-particle {
+  position: absolute;
+  display: block;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  user-select: none;
+  /* 从宠物身上飘起并淡出 */
+  animation: pet-particle-float 1.1s var(--ease-out) forwards;
+}
+
+/* scale 里乘上 --particle-scale，让每颗爱心大小略有差异，不至于像复制粘贴 */
+@keyframes pet-particle-float {
+  0% {
+    transform: translate(-50%, -50%) scale(calc(0.3 * var(--particle-scale, 1))) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(calc(1.15 * var(--particle-scale, 1))) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 70px)) scale(calc(0.85 * var(--particle-scale, 1)))
+      rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+/* 宠物被按住时轻微下压，给出「摸到了」的触觉隐喻 */
+.pet-stage.is-pressing .pet-root {
+  transform: scale(1.03, 0.97);
+  transition: transform 120ms var(--ease-out);
+}

@@ -1,0 +1,29 @@
+# ============================================================
+# 换行符统一
+#
+# 为什么必须有这个文件：项目在 Windows 上开发，但 CI（GitHub Actions）
+# 跑在 Linux 上。Windows 版 Git 默认会把文本文件的换行转成 CRLF，
+# 而 shell 脚本一旦带上 CRLF，shebang 行（#!/bin/sh\r）就会解析失败，
+# 构建以 "No such file or directory" 报错 —— 而且报错信息完全不指向真正的原因。
+#
+# 这里强制所有文本文件在仓库里统一用 LF，只有 Windows 批处理保持 CRLF。
+# ============================================================
+
+* text=auto eol=lf
+
+# Windows 批处理必须是 CRLF，否则 cmd.exe 解析会出问题
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 二进制文件不要做任何换行处理
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.jar binary
+*.apk binary
+*.aab binary
+*.keystore binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

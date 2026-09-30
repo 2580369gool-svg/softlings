@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# 冒烟测试用的临时 Chrome profile
+.smoke
+.icons-profile
+
+# 安卓构建产物。
+# 注意：android/ 目录本身要提交（Capacitor 的安卓工程是项目的一部分），
+# 只忽略它的构建输出和本地配置。
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+android/.idea
+android/capacitor-cordova-android-plugins
+android/app/src/main/assets/public
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

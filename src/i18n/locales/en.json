@@ -1,0 +1,371 @@
+{
+  "app": {
+    "name": "Softlings",
+    "tagline": "Raise a softling that's all your own"
+  },
+  "ui": {
+    "coins": "Coins",
+    "needs": "Status",
+    "items": "Inventory",
+    "useItem": "Use {{name}}"
+  },
+  "audio": {
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "lang": {
+    "label": "Language",
+    "zh": "中文",
+    "en": "English"
+  },
+  "species": {
+    "puddly": "Puddly",
+    "mochi": "Mochi Cat",
+    "cloudpuff": "Cloudpuff",
+    "sprout": "Sproutling"
+  },
+  "speciesDesc": {
+    "puddly": "Made of jelly — wobbles when poked",
+    "mochi": "A rice-cake spirit, the clingiest of all",
+    "cloudpuff": "A fluffy cloud that loves napping",
+    "sprout": "A tiny dragon with a sprout, endlessly curious"
+  },
+  "stage": {
+    "egg": "Egg",
+    "baby": "Baby",
+    "child": "Growing",
+    "adult": "Adult",
+    "elder": "Elder"
+  },
+  "egg": {
+    "status": "Hatching",
+    "hint": "The egg is wobbling… it's almost out"
+  },
+  "gallery": {
+    "title": "Evolution Gallery",
+    "exit": "Back",
+    "count": "{{n}} evolution lines in total"
+  },
+  "behavior": {
+    "idle": "Zoning out",
+    "lookAround": "Looking around",
+    "hop": "Hopped twice",
+    "stretch": "Stretched out",
+    "spin": "Spun around",
+    "stare": "Staring at you",
+    "groom": "Grooming itself",
+    "yawn": "Yawned",
+    "doze": "Getting sleepy",
+    "begFood": "Looks hungry…",
+    "begPlay": "Wants to play…",
+    "begPet": "Come here for pets~",
+    "whimper": "Feeling a bit down…"
+  },
+  "trait": {
+    "feed": "Foodie",
+    "bathe": "Tidy",
+    "pet": "Clingy",
+    "play": "Playful",
+    "tease": "Mischievous",
+    "photo": "Show-off",
+    "talk": "Chatty",
+    "sleep": "Sleepyhead"
+  },
+  "nav": {
+    "arcade": "Games",
+    "shop": "Shop",
+    "wardrobe": "Wardrobe",
+    "habitat": "Yard",
+    "travel": "Travel",
+    "sections": "Sections"
+  },
+  "travel": {
+    "title": "Travel",
+    "collected": "{{n}}/{{total}} collected",
+    "onTheWay": "Out on a trip",
+    "backIn": "Back in {{d}}",
+    "offlineNote": "It keeps travelling while the game is closed — come back for the photos",
+    "pickBento": "Pack a lunch",
+    "notReady": "Not up for a trip right now: {{needs}} too low",
+    "odds": "{{rare}}% rare or better",
+    "gallery": "Postcards",
+    "footnote": "The farther it goes, the rarer the photos",
+    "returnTitle": "It's back!",
+    "returnBody": "These were stuffed in its bag:",
+    "returnAllNew": "All brand-new photos!",
+    "newBadge": "NEW",
+    "returnConfirm": "Keep them",
+    "awayHint": "It's out — there'll be a surprise when it returns",
+    "viewTrip": "See how far it's gotten"
+  },
+  "bento": {
+    "riceBall": {
+      "name": "Rice Ball",
+      "desc": "A short trip, back the same day"
+    },
+    "bento": {
+      "name": "Bento Box",
+      "desc": "Goes farther, sees more"
+    },
+    "feast": {
+      "name": "Grand Feast",
+      "desc": "A long journey — the best odds of rare scenery"
+    }
+  },
+  "rarity": {
+    "common": "Common",
+    "rare": "Rare",
+    "legendary": "Legendary"
+  },
+  "postcard": {
+    "beach": "Seaside",
+    "forest": "Forest",
+    "flowerField": "Flower Field",
+    "lake": "Lakeside",
+    "bamboo": "Bamboo Grove",
+    "snowMountain": "Snow Peak",
+    "sakura": "Cherry Blossoms",
+    "desert": "Desert",
+    "starrySky": "Starry Sky",
+    "volcano": "Volcano",
+    "aurora": "Aurora",
+    "seaOfClouds": "Sea of Clouds"
+  },
+  "slot": {
+    "hat": "Hat",
+    "face": "Face",
+    "neck": "Neck",
+    "back": "Back"
+  },
+  "accessory": {
+    "strawHat": "Straw Hat",
+    "beanie": "Beanie",
+    "crown": "Little Crown",
+    "glasses": "Round Glasses",
+    "sunglasses": "Sunglasses",
+    "scarf": "Red Scarf",
+    "bowtie": "Bow Tie",
+    "bell": "Bell Collar",
+    "backpack": "Tiny Backpack",
+    "balloon": "Balloon"
+  },
+  "wardrobe": {
+    "title": "Wardrobe",
+    "hint": "Tap an accessory you own to wear it",
+    "worn": "Worn",
+    "tapToWear": "Tap to wear",
+    "footnote": "One item per slot — tap again to take it off"
+  },
+  "habitat": {
+    "title": "Yard",
+    "collected": "{{n}}/{{total}} collected",
+    "emptySlot": "Empty slot",
+    "staysFor": "Stays {{d}} more",
+    "photograph": "Take a photo",
+    "photographed": "Logged ✓",
+    "waiting": "Quiet out here… try placing something",
+    "placements": "Placements",
+    "tapToPlace": "Tap to place",
+    "gallery": "Visitor Dex",
+    "footnote": "Placing the right things draws specific guests — they come while you're away too"
+  },
+  "placement": {
+    "foodBowl": "Food Bowl",
+    "birdSeed": "Bird Feeder",
+    "cushion": "Cushion",
+    "toyMouse": "Toy Mouse",
+    "waterBowl": "Water Bowl",
+    "flowerPot": "Flower Pot"
+  },
+  "visitor": {
+    "sparrow": "Sparrow",
+    "squirrel": "Squirrel",
+    "calico": "Calico Cat",
+    "raccoon": "Raccoon",
+    "fox": "Fox",
+    "ferret": "Ferret",
+    "frog": "Frog",
+    "hedgehog": "Hedgehog",
+    "ladybug": "Ladybug",
+    "rabbit": "Rabbit"
+  },
+  "arcade": {
+    "title": "Mini Games",
+    "quit": "Quit round",
+    "points": "pts",
+    "quota": "{{n}} coins left today",
+    "capReached": "Daily limit reached",
+    "bonusHint": "Signature game",
+    "bonusNote": "★ marks its signature game — rewards ×{{mult}}",
+    "resultTitle": "Round over",
+    "yourScore": "Score",
+    "earned": "Earned",
+    "bonusEarned": "★ Signature game bonus",
+    "capped": "Daily limit reached — the excess wasn't paid out",
+    "again": "Play again",
+    "backToArcade": "Back to list"
+  },
+  "game": {
+    "catchFruit": { "name": "Catch the Fruit", "desc": "Slide to catch what falls" },
+    "bubblePop": { "name": "Bubble Pop", "desc": "Pop bubbles — avoid the dark ones" },
+    "rhythmTap": { "name": "Rhythm Tap", "desc": "Tap the lane when a note hits the line" },
+    "rockPaperScissors": { "name": "Rock Paper Scissors", "desc": "Best of five" },
+    "fishing": { "name": "Go Fishing", "desc": "Stop the hook in the green — five casts" },
+    "memoryMatch": { "name": "Memory Match", "desc": "Pair up all 8 symbols" }
+  },
+  "rhythm": {
+    "lane": "Lane {{n}}",
+    "perfect": "Perfect!",
+    "good": "Nice",
+    "miss": "Miss"
+  },
+  "fishing": {
+    "hint": "Stop the hook in the green — the closer to center, the better",
+    "cast": "Cast!",
+    "perfect": "Bullseye!",
+    "good": "Nice",
+    "miss": "Got away"
+  },
+  "rps": {
+    "round": "Round {{n}} / {{total}}",
+    "you": "You",
+    "pet": "Them",
+    "rock": "Rock",
+    "paper": "Paper",
+    "scissors": "Scissors",
+    "win": "You win!",
+    "draw": "Draw",
+    "lose": "You lose"
+  },
+  "memory": {
+    "hint": "Flip two matching symbols to pair them",
+    "hidden": "Face-down card"
+  },
+  "shop": {
+    "title": "Shop",
+    "footnote": "Items show up in the inventory bar on the care screen — tap to use"
+  },
+  "item": {
+    "snack": { "name": "Cookie", "desc": "A quick top-up of satiety" },
+    "dessert": { "name": "Cream Cake", "desc": "Big boost to satiety and mood" },
+    "bubbleBath": { "name": "Bath Bomb", "desc": "One thorough clean" },
+    "toyBall": { "name": "New Toy Ball", "desc": "Fun without the fatigue" }
+  },
+  "milestone": {
+    "hatchTitle": "It hatched!",
+    "hatchBody": "It crawled out of the shell and is looking right at you.",
+    "evolveTitle": "It evolved!",
+    "evolvePath": "Care path · {{path}}",
+    "confirm": "Wonderful"
+  },
+  "path": {
+    "refined": "Refined",
+    "balanced": "Natural",
+    "feral": "Wild"
+  },
+  "evolution": {
+    "puddly_caramel": {
+      "name": "Caramel Pudding",
+      "desc": "Pampered so well it's wrapped in a coat of sweet caramel."
+    },
+    "puddly_jelly": {
+      "name": "Jelly Sprite",
+      "desc": "So clear you can see light through it — it scatters sparkles when it moves."
+    },
+    "puddly_magma": {
+      "name": "Magma Pud",
+      "desc": "Grew up wild, with a small flame burning inside."
+    },
+    "mochi_daifuku": {
+      "name": "Daifuku Cat",
+      "desc": "Round and soft, balancing a fresh strawberry on its head."
+    },
+    "mochi_tsukimi": {
+      "name": "Moonlit Mochi",
+      "desc": "Loves staring into the night, with a crescent moon on its brow."
+    },
+    "mochi_tiger": {
+      "name": "Tiger Mochi",
+      "desc": "Full of wild energy — tiger stripes and a fluffy tail."
+    },
+    "cloudpuff_rainbow": {
+      "name": "Rainbow Cloud",
+      "desc": "A rainbow tucked inside the fluff, trailing light wherever it goes."
+    },
+    "cloudpuff_drizzle": {
+      "name": "Drizzle Cloud",
+      "desc": "Carries a tiny rain cloud over its head, everywhere."
+    },
+    "cloudpuff_storm": {
+      "name": "Storm Cloud",
+      "desc": "Bottled up too much feeling — it grew wings and lightning."
+    },
+    "sprout_blossom": {
+      "name": "Blossom Dragon",
+      "desc": "Its crown blooms with flowers, and butterflies always follow."
+    },
+    "sprout_crystal": {
+      "name": "Crystal Dragon",
+      "desc": "Grew a crystal horn; its body glows faintly."
+    },
+    "sprout_ember": {
+      "name": "Ember Dragon",
+      "desc": "A flame that never goes out burns at the tip of its tail."
+    }
+  },
+  "units": {
+    "day": "d",
+    "hour": "h",
+    "minute": "min",
+    "second": "s"
+  },
+  "needs": {
+    "satiety": "Satiety",
+    "cleanliness": "Cleanliness",
+    "mood": "Mood",
+    "energy": "Energy"
+  },
+  "actions": {
+    "feed": "Feed",
+    "bathe": "Bathe",
+    "pet": "Pet",
+    "play": "Play",
+    "tease": "Tease",
+    "photo": "Photo",
+    "talk": "Talk",
+    "sleep": "Sleep"
+  },
+  "actionResult": {
+    "feed": "Munching happily!",
+    "bathe": "Squeaky clean~",
+    "pet": "Squinting with delight",
+    "play": "Having so much fun!",
+    "tease": "Spinning with giggles",
+    "photo": "Click! Got it",
+    "talk": "Tilting its head to listen",
+    "sleep": "Fast asleep…",
+    "refused": "Doesn't want to right now…",
+    "backfire": "Got grumpy and turned away…"
+  },
+  "offline": {
+    "title": "Welcome back!",
+    "body": "You were away for {{duration}}. Your softling has been waiting.",
+    "capped": "(Away too long — the excess was settled at 30%)",
+    "confirm": "Take a look"
+  },
+  "status": {
+    "happy": "Happy",
+    "normal": "Doing fine",
+    "hungry": "Hungry",
+    "dirty": "A bit dirty",
+    "sad": "Feeling down",
+    "tired": "Tired",
+    "sleeping": "Sleeping"
+  },
+  "common": {
+    "close": "Close",
+    "confirm": "OK",
+    "cancel": "Cancel",
+    "back": "Back"
+  }
+}

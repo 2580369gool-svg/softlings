@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  中文应用名。
+  Android 会按系统语言自动选择 values-zh 还是默认的 values，
+  所以中文手机上桌面图标显示「小软糖」，其他语言显示 Softlings。
+-->
+<resources>
+    <string name="app_name">小软糖</string>
+    <string name="title_activity_main">小软糖</string>
+</resources>

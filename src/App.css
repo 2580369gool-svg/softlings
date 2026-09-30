@@ -1,0 +1,197 @@
+/* ============================================================
+   应用外壳布局 —— 竖屏单手操作优先
+   ============================================================ */
+
+.app {
+  flex: 1;
+  min-height: 0; /* 允许子元素收缩，移动端必须，否则会溢出 */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+}
+
+/* ---------------- 顶部 ---------------- */
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-1);
+  padding: var(--sp-2);
+  background: rgba(255, 255, 255, 0.66);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+  backdrop-filter: blur(8px);
+}
+
+.app__identity {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.app__name {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app__badge {
+  flex: none;
+  padding: 2px 10px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--c-ink);
+  background: var(--c-lemon);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+}
+
+.app__meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.coin {
+  padding: 3px 8px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  background: var(--c-white);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+/* 顶部栏现在有金币 + 两个导航按钮 + 语言切换，窄屏必须压紧，
+   空间实在不够时优先牺牲阶段徽章（信息量最低） */
+.app__header .navbtn,
+.app__header .lang {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 360px) {
+  .app__badge {
+    display: none;
+  }
+}
+
+/* ---------------- 二级导航 ---------------- */
+
+.app__nav {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.app__navBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 42px;
+  padding: 0 6px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.72);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  box-shadow: var(--sh-sm);
+  transition: transform 90ms var(--ease-out);
+}
+
+.app__navBtn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* 需求条区 ---------------- */
+
+.app__needs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3);
+  background: rgba(255, 255, 255, 0.58);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+}
+
+/* ---------------- 宠物舞台 ---------------- */
+
+.app__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+/* 状态 + 性格标签，居中一行；性格标签没有突出权重时整行只剩状态 */
+.app__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.app__status {
+  padding: 4px 14px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--c-ink);
+  background: rgba(255, 255, 255, 0.75);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+}
+
+/* 蛋阶段的提示语 —— 这个阶段没有可操作内容，用一句话交代清楚就好 */
+.app__hint {
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-align: center;
+  color: var(--c-ink);
+  background: rgba(255, 255, 255, 0.7);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+  animation: hint-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes hint-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 宠物本体尺寸由 .pet-stage 控制（见 components.css） */
+
+/* 横屏 / 矮屏：把宠物缩小，保证操作区不被挤出屏幕 */
+@media (max-height: 640px) {
+  .pet-stage {
+    width: min(38vh, 220px);
+    height: min(38vh, 220px);
+  }
+  .app__needs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

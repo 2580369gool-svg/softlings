@@ -1,0 +1,84 @@
+<!doctype html>
+<!--
+  应用图标的绘制模板。
+  由 scripts/make-icons.mjs 用 Chrome 无头模式截屏生成各尺寸 PNG，
+  所以图标本身也是「代码生成」的，不引入任何美术素材。
+
+  参数：
+    mode=full        完整图标（带渐变底 + 圆形）
+    mode=foreground  自适应图标前景（透明底，宠物缩到安全区内）
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        background: linear-gradient(160deg, #bfe9ff 0%, #ffe3f0 58%, #fff6d9 100%);
+      }
+      /* 自适应图标的前景层必须透明，且内容要留在中心安全区内 */
+      body.is-foreground {
+        background: transparent;
+      }
+      .pet {
+        width: 66%;
+        aspect-ratio: 1;
+        filter: drop-shadow(0 6px 0 rgba(74, 59, 99, 0.16));
+      }
+      body.is-foreground .pet {
+        /* 自适应图标会被裁成各种形状，内容缩到 60% 才不会被裁掉 */
+        width: 58%;
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="pet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- 布丁兽：最基础也最有辨识度的那只 -->
+      <path
+        d="M100 28 C138 28 168 66 170 112 C171 148 152 176 100 176 C48 176 29 148 30 112 C32 66 62 28 100 28 Z"
+        fill="#FFD98E"
+      />
+      <ellipse cx="100" cy="46" rx="34" ry="12" fill="#fff" opacity="0.4" />
+      <ellipse cx="66" cy="70" rx="14" ry="20" fill="#fff" opacity="0.45" />
+      <path
+        d="M40 146 C60 168 140 168 160 146 C150 172 122 180 100 180 C78 180 50 172 40 146 Z"
+        fill="#000"
+        opacity="0.07"
+      />
+
+      <!-- 眼睛：高光是可爱度的命门，图标这么小更不能省 -->
+      <ellipse cx="78" cy="104" rx="11" ry="13" fill="#4A3B63" />
+      <ellipse cx="122" cy="104" rx="11" ry="13" fill="#4A3B63" />
+      <circle cx="81.5" cy="100" r="3.8" fill="#fff" />
+      <circle cx="125.5" cy="100" r="3.8" fill="#fff" />
+      <circle cx="75" cy="108" r="1.9" fill="#fff" opacity="0.7" />
+      <circle cx="119" cy="108" r="1.9" fill="#fff" opacity="0.7" />
+
+      <circle cx="60" cy="124" r="9" fill="#FF6B9D" opacity="0.5" />
+      <circle cx="140" cy="124" r="9" fill="#FF6B9D" opacity="0.5" />
+
+      <!-- 笑嘴 -->
+      <path
+        d="M86 128 Q100 144 114 128"
+        stroke="#4A3B63"
+        stroke-width="3.4"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </svg>
+
+    <script>
+      const mode = new URLSearchParams(location.search).get("mode") || "full";
+      if (mode === "foreground") document.body.classList.add("is-foreground");
+    </script>
+  </body>
+</html>

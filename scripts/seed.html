@@ -1,0 +1,160 @@
+<!doctype html>
+<!-- ============================================================
+     仅用于无头浏览器冒烟测试：写入一份指定状态的存档，然后跳回首页。
+     这个文件在 scripts/ 而不是 public/，不会被打进 APK。
+
+     参数：
+       hours=20              距离上次结算多少小时（测离线补算）
+       preset=sad            宠物状态预设（测表情系统）
+       species=mochi         种族
+       stage=egg|baby|child|adult|elder   成长阶段
+       evolution=mochi_tiger 指定进化线（不填则按阶段自动选一条默认的）
+     ============================================================ -->
+<html>
+  <head><meta charset="utf-8" /><title>seed</title></head>
+  <body>
+    <script>
+      const q = new URLSearchParams(location.search);
+      const now = Date.now();
+
+      // 每个预设都要能明确命中 petSvg 里的一条表情分支
+      const PRESETS = {
+        // 注意：心情必须低于 70，否则会被判定成 happy，测不到 normal 这条分支
+        normal:   { satiety: 60, cleanliness: 65, mood: 55, energy: 50, sleeping: false },
+        happy:    { satiety: 92, cleanliness: 92, mood: 96, energy: 85, sleeping: false },
+        hungry:   { satiety: 14, cleanliness: 80, mood: 72, energy: 60, sleeping: false },
+        dirty:    { satiety: 80, cleanliness: 12, mood: 72, energy: 60, sleeping: false },
+        sad:      { satiety: 80, cleanliness: 80, mood: 11, energy: 60, sleeping: false },
+        // ⚠️ 精力必须落在 AUTO_SLEEP_ENERGY(22) 和状态阈值(30) 之间：
+        //    低于 22 宠物会在截图前自己睡着，变成 sleeping 分支；
+        //    高于 30 则判定为正常，测不到 tired。
+        tired:    { satiety: 80, cleanliness: 80, mood: 72, energy: 26, sleeping: false },
+        sleeping: { satiety: 80, cleanliness: 80, mood: 72, energy: 45, sleeping: true },
+      };
+
+      // 各阶段对应的经验值，必须与 balance.ts 的 STAGE_EXP 保持一致
+      const STAGE_EXP = { egg: 0, baby: 0, child: 340, adult: 1080, elder: 2480 };
+      const DEFAULT_EVO = {
+        puddly: "puddly_caramel",
+        mochi: "mochi_daifuku",
+        cloudpuff: "cloudpuff_rainbow",
+        sprout: "sprout_blossom",
+      };
+
+      const preset = PRESETS[q.get("preset")] || PRESETS.normal;
+      const species = q.get("species") || "mochi";
+      const stage = q.get("stage") || "child";
+      const hoursAgo = Number(q.get("hours") || 0);
+
+      // traits=feed,play → 把这两项权重拉到 2.0，用来验证性格标签会显示
+      const personality = {
+        feed: 1, bathe: 1, pet: 1, play: 1,
+        tease: 1, photo: 1, talk: 1, sleep: 1,
+      };
+      for (const k of (q.get("traits") || "").split(",").filter(Boolean)) {
+        if (k in personality) personality[k] = 2.0;
+      }
+
+      // 蛋和幼体还没有进化线（真实游戏里也是这么走的）
+      const locked = stage === "child" || stage === "adult" || stage === "elder";
+      const evolution = q.get("evolution") || (locked ? DEFAULT_EVO[species] : null);
+
+      // 蛋阶段需求冻结，这里给满值避免干扰
+      const isEgg = stage === "egg";
+
+      // wear=crown,scarf → 拥有并穿上这些饰品
+      const ACC_SLOT = {
+        strawHat: "hat", beanie: "hat", crown: "hat",
+        glasses: "face", sunglasses: "face",
+        scarf: "neck", bowtie: "neck", bell: "neck",
+        backpack: "back", balloon: "back",
+      };
+      const accessories = {};
+      const ownedAccessories = [];
+      for (const id of (q.get("wear") || "").split(",").filter(Boolean)) {
+        if (ACC_SLOT[id]) {
+          accessories[ACC_SLOT[id]] = id;
+          ownedAccessories.push(id);
+        }
+      }
+
+      // place=birdSeed,waterBowl → 拥有并摆进院子
+      const placedIds = (q.get("place") || "").split(",").filter(Boolean);
+      const placed = [placedIds[0] || null, placedIds[1] || null, placedIds[2] || null];
+
+      // visitor=fox&shot=1 → 院子里正有一位访客
+      const visitorId = q.get("visitor");
+      const visitor = visitorId
+        ? { id: visitorId, remainingMs: 9 * 60 * 1000, photographed: q.get("shot") === "1" }
+        : null;
+      const collectedVisitors = q.get("collected")
+        ? q.get("collected").split(",").filter(Boolean)
+        : [];
+
+      const save = {
+        schemaVersion: 2,
+        savedAt: now,
+        state: {
+          pet: {
+            id: "pet_smoke",
+            species: species,
+            name: "冒烟测试",
+            stage: stage,
+            bornAt: now - 86400000,
+            exp: STAGE_EXP[stage] ?? 0,
+            needs: {
+              satiety: preset.satiety,
+              cleanliness: preset.cleanliness,
+              mood: preset.mood,
+              energy: preset.energy,
+            },
+            sleeping: isEgg ? false : preset.sleeping,
+            careScore: 0.8,
+            evolution: evolution,
+            // 蛋给一半进度，这样能同时看到蛋壳和刚出现的裂纹
+            hatchProgress: isEgg ? 0.5 : 1,
+            personality: personality,
+            accessories: accessories,
+          },
+          clock: { lastTickAt: now - hoursAgo * 3600000, totalPlayedMs: 0 },
+          economy: {
+            coins: Number(q.get("coins") || 123),
+            items: {},
+            gameCoinsToday: 0,
+            gameCoinDay: "",
+          },
+          habitat: {
+            placed: placed,
+            visitor: visitor,
+            rollInMs: 3 * 60 * 1000,
+            lastVisitorId: null,
+            seed: 12345,
+          },
+          collection: {
+            accessories: ownedAccessories,
+            placements: placedIds,
+            visitors: collectedVisitors,
+          },
+          travel: {
+            // trip=feast&tripLeft=30 → 正在旅行，还剩 30 分钟
+            active: q.get("trip")
+              ? {
+                  bento: q.get("trip"),
+                  remainingMs: Number(q.get("tripLeft") || 30) * 60 * 1000,
+                  totalMs: { riceBall: 30, bento: 90, feast: 180 }[q.get("trip")] * 60 * 1000,
+                  seed: 4242,
+                }
+              : null,
+            postcards: q.get("postcards") ? q.get("postcards").split(",").filter(Boolean) : [],
+            tripCount: Number(q.get("tripCount") || 0),
+          },
+          lastTrip: null,
+        },
+      };
+
+      localStorage.setItem("softlings.save", JSON.stringify(save));
+      // next 参数用于跳到指定界面，比如 next=/?screen=arcade
+      location.replace(q.get("next") || "/");
+    </script>
+  </body>
+</html>

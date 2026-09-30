@@ -1,0 +1,371 @@
+{
+  "app": {
+    "name": "小软糖",
+    "tagline": "养一只只属于你的小软糖"
+  },
+  "ui": {
+    "coins": "金币",
+    "needs": "状态",
+    "items": "背包",
+    "useItem": "使用{{name}}"
+  },
+  "audio": {
+    "mute": "关闭声音",
+    "unmute": "打开声音"
+  },
+  "lang": {
+    "label": "语言",
+    "zh": "中文",
+    "en": "English"
+  },
+  "species": {
+    "puddly": "布丁兽",
+    "mochi": "麻薯猫",
+    "cloudpuff": "云朵羊",
+    "sprout": "芽芽龙"
+  },
+  "speciesDesc": {
+    "puddly": "果冻做的，一碰就 Q 弹地晃",
+    "mochi": "糯米团子成精，最粘人",
+    "cloudpuff": "软乎乎的云朵，爱睡懒觉",
+    "sprout": "头顶嫩芽的小龙，好奇心旺盛"
+  },
+  "stage": {
+    "egg": "蛋",
+    "baby": "幼体",
+    "child": "成长期",
+    "adult": "成年",
+    "elder": "长老"
+  },
+  "egg": {
+    "status": "孵化中",
+    "hint": "蛋在轻轻晃动…它快出来了"
+  },
+  "gallery": {
+    "title": "进化图鉴",
+    "exit": "返回",
+    "count": "共 {{n}} 条进化线"
+  },
+  "behavior": {
+    "idle": "发着呆",
+    "lookAround": "东张西望",
+    "hop": "蹦了两下",
+    "stretch": "伸了个懒腰",
+    "spin": "原地转了一圈",
+    "stare": "一直盯着你",
+    "groom": "自己舔了舔毛",
+    "yawn": "打了个哈欠",
+    "doze": "眼皮开始打架",
+    "begFood": "好像饿了…",
+    "begPlay": "想和你玩…",
+    "begPet": "凑过来求摸摸～",
+    "whimper": "有点委屈…"
+  },
+  "trait": {
+    "feed": "贪吃",
+    "bathe": "爱干净",
+    "pet": "粘人",
+    "play": "好动",
+    "tease": "调皮",
+    "photo": "爱臭美",
+    "talk": "话痨",
+    "sleep": "嗜睡"
+  },
+  "nav": {
+    "arcade": "游戏",
+    "shop": "商店",
+    "wardrobe": "衣柜",
+    "habitat": "家园",
+    "travel": "旅行",
+    "sections": "功能入口"
+  },
+  "travel": {
+    "title": "旅行",
+    "collected": "已收集 {{n}}/{{total}}",
+    "onTheWay": "它在路上",
+    "backIn": "还有 {{d}} 回来",
+    "offlineNote": "关掉游戏它也会继续走，回来时来看照片就好",
+    "pickBento": "准备行囊",
+    "notReady": "它现在不想出门：{{needs}} 太低了",
+    "odds": "稀有以上 {{rare}}%",
+    "gallery": "明信片",
+    "footnote": "走得越远，带回来的照片越罕见",
+    "returnTitle": "它回来了！",
+    "returnBody": "背包里塞着这几张照片：",
+    "returnAllNew": "全是没见过的照片！",
+    "newBadge": "NEW",
+    "returnConfirm": "收好",
+    "awayHint": "它出门了，回来时会有惊喜",
+    "viewTrip": "看看它走到哪了"
+  },
+  "bento": {
+    "riceBall": {
+      "name": "饭团",
+      "desc": "短途，当天来回"
+    },
+    "bento": {
+      "name": "便当",
+      "desc": "走得远一些，能看到更多地方"
+    },
+    "feast": {
+      "name": "豪华大餐",
+      "desc": "长途旅行，最可能带回罕见的风景"
+    }
+  },
+  "rarity": {
+    "common": "常见",
+    "rare": "稀有",
+    "legendary": "传说"
+  },
+  "postcard": {
+    "beach": "海边",
+    "forest": "森林",
+    "flowerField": "花田",
+    "lake": "湖畔",
+    "bamboo": "竹林",
+    "snowMountain": "雪山",
+    "sakura": "樱花",
+    "desert": "沙漠",
+    "starrySky": "星空",
+    "volcano": "火山",
+    "aurora": "极光",
+    "seaOfClouds": "云海"
+  },
+  "slot": {
+    "hat": "帽子",
+    "face": "面部",
+    "neck": "颈部",
+    "back": "背饰"
+  },
+  "accessory": {
+    "strawHat": "草帽",
+    "beanie": "毛线帽",
+    "crown": "小皇冠",
+    "glasses": "圆框眼镜",
+    "sunglasses": "墨镜",
+    "scarf": "红围巾",
+    "bowtie": "领结",
+    "bell": "铃铛项圈",
+    "backpack": "小背包",
+    "balloon": "气球"
+  },
+  "wardrobe": {
+    "title": "衣柜",
+    "hint": "点已购买的饰品即可穿戴",
+    "worn": "已穿戴",
+    "tapToWear": "点一下穿上",
+    "footnote": "同一部位只能戴一件，再点一下就取下来"
+  },
+  "habitat": {
+    "title": "家园",
+    "collected": "已收集 {{n}}/{{total}}",
+    "emptySlot": "空格子",
+    "staysFor": "还会待 {{d}}",
+    "photograph": "拍下来",
+    "photographed": "已记录 ✓",
+    "waiting": "院子里静悄悄的…摆点东西试试",
+    "placements": "摆放",
+    "tapToPlace": "点一下摆上",
+    "gallery": "访客图鉴",
+    "footnote": "摆对东西更容易招来特定的来宾，离线时它们也会来"
+  },
+  "placement": {
+    "foodBowl": "食盆",
+    "birdSeed": "鸟食台",
+    "cushion": "软垫",
+    "toyMouse": "玩具鼠",
+    "waterBowl": "水盆",
+    "flowerPot": "花盆"
+  },
+  "visitor": {
+    "sparrow": "胖麻雀",
+    "squirrel": "松鼠",
+    "calico": "三花猫",
+    "raccoon": "浣熊",
+    "fox": "小狐狸",
+    "ferret": "雪貂",
+    "frog": "青蛙",
+    "hedgehog": "刺猬",
+    "ladybug": "瓢虫",
+    "rabbit": "兔子"
+  },
+  "arcade": {
+    "title": "小游戏",
+    "quit": "退出本局",
+    "points": "分",
+    "quota": "今日还可赚 {{n}} 币",
+    "capReached": "今日额度已用完",
+    "bonusHint": "本命游戏",
+    "bonusNote": "带 ★ 的是它的本命游戏，收益 ×{{mult}}",
+    "resultTitle": "本局结束",
+    "yourScore": "得分",
+    "earned": "获得",
+    "bonusEarned": "★ 本命游戏加成",
+    "capped": "已达今日收益上限，超出部分未结算",
+    "again": "再来一局",
+    "backToArcade": "返回列表"
+  },
+  "game": {
+    "catchFruit": { "name": "接水果", "desc": "左右滑动接住掉下来的水果" },
+    "bubblePop": { "name": "泡泡消除", "desc": "点破泡泡，小心深色的陷阱" },
+    "rhythmTap": { "name": "节奏敲击", "desc": "音符落到判定线时点对应轨道" },
+    "rockPaperScissors": { "name": "猜拳", "desc": "五局定胜负" },
+    "fishing": { "name": "钓鱼", "desc": "让鱼钩停在绿区，共五次机会" },
+    "memoryMatch": { "name": "记忆翻牌", "desc": "把 8 对图案全部配对" }
+  },
+  "rhythm": {
+    "lane": "轨道 {{n}}",
+    "perfect": "完美！",
+    "good": "不错",
+    "miss": "空"
+  },
+  "fishing": {
+    "hint": "让鱼钩停在绿区 —— 越靠中心越好",
+    "cast": "下钩！",
+    "perfect": "正中！",
+    "good": "不错",
+    "miss": "脱钩了"
+  },
+  "rps": {
+    "round": "第 {{n}} / {{total}} 局",
+    "you": "你",
+    "pet": "它",
+    "rock": "石头",
+    "paper": "布",
+    "scissors": "剪刀",
+    "win": "你赢了！",
+    "draw": "平局",
+    "lose": "你输了"
+  },
+  "memory": {
+    "hint": "翻开两张相同的图案即可配对",
+    "hidden": "未翻开的牌"
+  },
+  "shop": {
+    "title": "商店",
+    "footnote": "道具会出现在照顾页的背包条里，点一下就能用"
+  },
+  "item": {
+    "snack": { "name": "小饼干", "desc": "立刻补充一点饱食" },
+    "dessert": { "name": "奶油蛋糕", "desc": "大幅提升饱食与心情" },
+    "bubbleBath": { "name": "泡泡浴球", "desc": "一次彻底的清洁" },
+    "toyBall": { "name": "新玩具球", "desc": "玩得开心，而且不累" }
+  },
+  "milestone": {
+    "hatchTitle": "破壳啦！",
+    "hatchBody": "它从蛋里钻出来，正睁着眼睛看你。",
+    "evolveTitle": "进化了！",
+    "evolvePath": "照护路线 · {{path}}",
+    "confirm": "太好了"
+  },
+  "path": {
+    "refined": "精致",
+    "balanced": "自然",
+    "feral": "野性"
+  },
+  "evolution": {
+    "puddly_caramel": {
+      "name": "焦糖布丁兽",
+      "desc": "被照顾得太好，浑身裹上了一层甜甜的焦糖。"
+    },
+    "puddly_jelly": {
+      "name": "果冻精灵",
+      "desc": "通透得能看见光，一动就会洒出细碎的光点。"
+    },
+    "puddly_magma": {
+      "name": "熔岩布丁",
+      "desc": "自己野惯了，身体里烧着一小簇不灭的火苗。"
+    },
+    "mochi_daifuku": {
+      "name": "大福猫",
+      "desc": "圆润柔软，头顶还顶着一颗新鲜草莓。"
+    },
+    "mochi_tsukimi": {
+      "name": "月见猫",
+      "desc": "喜欢在夜里发呆，额上带着一弯月牙。"
+    },
+    "mochi_tiger": {
+      "name": "虎斑麻薯",
+      "desc": "野性十足，身上长出了虎纹和蓬松的尾巴。"
+    },
+    "cloudpuff_rainbow": {
+      "name": "彩虹羊",
+      "desc": "云朵里裹着一道彩虹，走到哪都带着光。"
+    },
+    "cloudpuff_drizzle": {
+      "name": "细雨羊",
+      "desc": "无论去哪都顶着一小片会下雨的云。"
+    },
+    "cloudpuff_storm": {
+      "name": "雷暴羊",
+      "desc": "心里攒了太多情绪，长出了翅膀和闪电。"
+    },
+    "sprout_blossom": {
+      "name": "花冠龙",
+      "desc": "头顶开满了花，总有蝴蝶跟着它飞。"
+    },
+    "sprout_crystal": {
+      "name": "宝石龙",
+      "desc": "长出了水晶角，身体会微微透光。"
+    },
+    "sprout_ember": {
+      "name": "烛焰龙",
+      "desc": "尾巴上燃着一簇永远不会熄灭的火。"
+    }
+  },
+  "units": {
+    "day": "天",
+    "hour": "小时",
+    "minute": "分钟",
+    "second": "秒"
+  },
+  "needs": {
+    "satiety": "饱食",
+    "cleanliness": "清洁",
+    "mood": "心情",
+    "energy": "精力"
+  },
+  "actions": {
+    "feed": "喂食",
+    "bathe": "洗澡",
+    "pet": "摸摸",
+    "play": "玩耍",
+    "tease": "逗弄",
+    "photo": "拍照",
+    "talk": "说话",
+    "sleep": "哄睡"
+  },
+  "actionResult": {
+    "feed": "吃得津津有味！",
+    "bathe": "洗得香喷喷～",
+    "pet": "舒服得眯起了眼睛",
+    "play": "玩得好开心！",
+    "tease": "被逗得转圈圈",
+    "photo": "咔嚓！记录下来了",
+    "talk": "歪着头听你说话",
+    "sleep": "乖乖睡着了…",
+    "refused": "现在不想做这个…",
+    "backfire": "被惹毛了，扭过头去…"
+  },
+  "offline": {
+    "title": "欢迎回来！",
+    "body": "你离开了{{duration}}，小软糖一直在等你。",
+    "capped": "（离线时间过长，超出部分已按 30% 结算）",
+    "confirm": "进去看看"
+  },
+  "status": {
+    "happy": "开心",
+    "normal": "还不错",
+    "hungry": "肚子饿了",
+    "dirty": "有点脏",
+    "sad": "闷闷不乐",
+    "tired": "累了",
+    "sleeping": "睡觉中"
+  },
+  "common": {
+    "close": "关闭",
+    "confirm": "确定",
+    "cancel": "取消",
+    "back": "返回"
+  }
+}
