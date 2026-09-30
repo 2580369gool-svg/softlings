@@ -10,6 +10,23 @@ permissions:
   contents: read
 
 jobs:
+  # 诊断作业：只跑 shell，不引用任何第三方 Action。
+  # 用途是二分定位 —— 如果连它都零步骤失败，说明问题在账号或运行器层面，
+  # 和 workflow 配置无关；如果它成功而 apk 失败，那问题就出在 Action 上。
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 裸运行器自检
+        run: |
+          echo "✅ shell 步骤可以执行"
+          uname -a
+          echo "ANDROID_HOME=${ANDROID_HOME:-<未设置>}"
+          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-<未设置>}"
+          ls "${ANDROID_HOME:-/usr/local/lib/android/sdk}" 2>/dev/null | head -8 || echo "(SDK 目录不可读)"
+          java -version 2>&1 | head -2 || echo "(无 java)"
+          df -h / | tail -1
+
   # 打包和测试拆成两个并行作业，互不阻塞。
   # 理由：测试依赖 CI 环境的 Chrome，一旦环境有差异就会连累 APK 出不来。
   apk:
