@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# 最小权限：工作流只需要读代码和上传产物。
+# 显式声明可以避免仓库默认权限设成只读时，第三方 Action 拿不到必要的授权。
+permissions:
+  contents: read
+
 jobs:
   # 打包和测试拆成两个并行作业，互不阻塞。
   # 理由：测试依赖 CI 环境的 Chrome，一旦环境有差异就会连累 APK 出不来。
