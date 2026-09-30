@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- 自适应图标的背景层，与 icon.html 的渐变起点保持一致 -->
-    <color name="ic_launcher_background">#BFE9FF</color>
-</resources>

@@ -21,7 +21,7 @@ import {
   BASKET_Y_RATIO,
   STROKE,
 } from "../src/core/balance";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -1063,6 +1063,38 @@ if (!existsSync(ANDROID)) {
     }
   }
   check(`Android 的 ${xmlFiles.length} 个 XML 全部合法`, badXml.length === 0, badXml.join(" | ") || "全部通过");
+
+  /* --- 同一个 values 目录内不能有重复资源 ---
+     这条是血的教训：我生成的 values/colors.xml 和 Capacitor 原有的
+     values/ic_launcher_background.xml 都定义了 ic_launcher_background，
+     导致构建在 MergeResources 任务上失败，而报错只有一个 Kotlin 堆栈，
+     完全不提「重复资源」四个字。
+     —— values 与 values-zh 之间的同名是合法的语言变体，不算冲突。 */
+  const dupResources: string[] = [];
+  for (const dir of readdirSync(resDir)) {
+    if (!dir.startsWith("values")) continue;
+    const full = join(resDir, dir);
+    if (!statSync(full).isDirectory()) continue;
+
+    const seen = new Map<string, string>();
+    for (const file of readdirSync(full)) {
+      if (!file.endsWith(".xml")) continue;
+      const text = readFileSync(join(full, file), "utf8");
+      for (const m of text.matchAll(
+        /<(color|string|style|dimen|bool|integer)\s+name="([^"]+)"/g,
+      )) {
+        const key = `${m[1]}:${m[2]}`;
+        const prev = seen.get(key);
+        if (prev) dupResources.push(`${dir} 里 ${key} 同时在 ${prev} 和 ${file}`);
+        else seen.set(key, file);
+      }
+    }
+  }
+  check(
+    "同一个 values 目录内没有重复资源（会让资源合并任务直接失败）",
+    dupResources.length === 0,
+    dupResources.slice(0, 2).join(" | ") || "无冲突",
+  );
 
   /* --- appId 必须和 build.gradle 一致 --- */
   const capConfig = readFileSync(new URL("../capacitor.config.ts", import.meta.url), "utf8");

@@ -136,10 +136,15 @@ made += 1;
 
 await rm(PROFILE, { recursive: true, force: true });
 
-// 自适应图标的背景色写进 colors.xml，和图标底色保持一致
-const colorsPath = path.join(RES, "values", "colors.xml");
+// 自适应图标的背景色。
+//
+// ⚠️ 必须写进 Capacitor 原有的 values/ic_launcher_background.xml，
+// 不能新建一个 values/colors.xml —— 同一个 values 目录里出现两个同名
+// color 资源，资源合并任务（MergeResources）会直接构建失败，
+// 而且报错只给一个 Kotlin 堆栈，完全不提「重复资源」四个字，极难定位。
+const backgroundPath = path.join(RES, "values", "ic_launcher_background.xml");
 await writeFile(
-  colorsPath,
+  backgroundPath,
   `<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 自适应图标的背景层，与 icon.html 的渐变起点保持一致 -->
